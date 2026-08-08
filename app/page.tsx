@@ -3,9 +3,12 @@
 import Link from 'next/link';
 import { ArrowRight, Clock3, Sparkles, Star, WandSparkles, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { ProductCard } from '@/components/product-card';
 import { SectionHeading } from '@/components/section-heading';
 import { useProducts } from '@/hooks/use-products';
+import { useAppSelector, useAppDispatch } from '@/store/hooks';
+import { addToCart } from '@/store/slices/cartSlice';
 
 const categories = [
   { name: 'For Her', gender: 'women', image: 'https://images.unsplash.com/photo-1618498082410-b4aa3d82f0cf?auto=format&fit=crop&w=800&q=85' },
@@ -48,6 +51,17 @@ const serviceNotes = [
 
 export default function Home() {
   const { products } = useProducts();
+  const router = useRouter();
+  const user = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
+
+  const handleAddToCart = (product: any) => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+    dispatch(addToCart({ product, quantity: 1 }));
+  };
 
   return (
     <>
@@ -143,7 +157,7 @@ export default function Home() {
                 <h3 className="font-serif text-2xl text-ink dark:text-white">{fragrance.name}</h3>
                 <p className="mt-2 text-xs uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500">{fragrance.notes}</p>
                 <p className="mt-4 font-serif text-xl font-semibold text-gold">{fragrance.price}</p>
-                <button className="button-gold mt-5 w-full">Add to cart</button>
+                <button onClick={() => handleAddToCart({ name: fragrance.name, price: parseFloat(fragrance.price.replace('$', '')), images: [fragrance.image], _id: fragrance.name.replace(/\s+/g, '-').toLowerCase() })} className="button-gold mt-5 w-full">Add to cart</button>
               </div>
             </div>
           ))}

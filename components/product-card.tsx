@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Heart, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { addToCart } from '@/store/slices/cartSlice';
 import { addToWishlist } from '@/store/slices/wishlistSlice';
@@ -10,9 +11,19 @@ import type { Product } from '@/store/types';
 
 export function ProductCard({ product }: { product: Product }) {
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 	const wishlistItems = useAppSelector((state) => state.wishlist.items);
+	const user = useAppSelector((state) => state.auth.user);
 	const inWishlist = wishlistItems.some((item) => item._id === product._id);
 	const reviewCount = product.totalReviews ?? product.reviews ?? 0;
+
+	const handleAddToCart = () => {
+		if (!user) {
+			router.push('/login');
+			return;
+		}
+		dispatch(addToCart({ product, quantity: 1 }));
+	};
 
 	return (
 		<motion.article initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.45 }} className="group animate-fade-in">
@@ -40,7 +51,7 @@ export function ProductCard({ product }: { product: Product }) {
 				<div className="mt-2 flex items-center gap-1 text-xs text-stone-300">
 					<Star size={13} className="fill-gold text-gold" /> {product.rating} <span className="text-stone-400">({reviewCount})</span>
 				</div>
-				<button onClick={() => dispatch(addToCart({ product, quantity: 1 }))} className="mt-4 text-xs font-bold uppercase tracking-widest text-gold hover:text-gold-light">
+				<button onClick={handleAddToCart} className="mt-4 text-xs font-bold uppercase tracking-widest text-gold hover:text-gold-light">
 					Add to bag +
 				</button>
 			</div>
