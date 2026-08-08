@@ -1,0 +1,2 @@
+import type { Config } from 'tailwindcss';
+const config: Config = { darkMode: 'class', content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'], theme: { extend: { colors: { gold: { DEFAULT: '#b7934e', light: '#e4c882', dark: '#806221' }, ink: '#14120f', cream: '#f8f5ee' }, fontFamily: { serif: ['Georgia', 'serif'] }, boxShadow: { luxe: '0 20px 55px rgba(20,18,15,.13)' } } }, plugins: [] }; export default config;

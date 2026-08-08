@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+:root {
+	color-scheme: light;
+	--page-bg: #f7f4ed;
+	--page-fg: #14120f;
+	--panel-bg: rgba(255,255,255,.72);
+	--panel-border: rgba(20,18,15,.1);
+	--panel-input-bg: rgba(255,255,255,.96);
+	--panel-input-fg: #14120f;
+	--panel-muted: #6b6258;
+}
+
+html.dark {
+	color-scheme: dark;
+	--page-bg: #0a0908;
+	--page-fg: #f8f5ee;
+	--panel-bg: rgba(255,255,255,.05);
+	--panel-border: rgba(255,255,255,.1);
+	--panel-input-bg: rgba(0,0,0,.22);
+	--panel-input-fg: #f8f5ee;
+	--panel-muted: #a59a89;
+}
+
+body {
+	background: radial-gradient(circle at top, rgba(183,147,78,.12), transparent 28%), linear-gradient(180deg, var(--page-bg) 0%, var(--page-bg) 100%);
+	color: var(--page-fg);
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	@apply antialiased;
+}
+
+.gold-line { @apply h-px bg-gold/60; }
+
+.eyebrow { @apply text-xs font-semibold uppercase tracking-[.24em] text-gold; }
+
+.button-gold { @apply inline-flex items-center justify-center bg-gold px-6 py-3 text-xs font-bold uppercase tracking-[.14em] text-white transition duration-150 ease-out hover:-translate-y-0.5 hover:bg-gold-dark active:translate-y-0 active:scale-[.99]; }
+
+.button-outline { @apply inline-flex items-center justify-center border px-6 py-3 text-xs font-bold uppercase tracking-[.14em] transition duration-150 ease-out hover:-translate-y-0.5 active:translate-y-0 active:scale-[.99]; border-color: var(--panel-border); background: var(--panel-bg); color: var(--page-fg); }
+
+.button-outline:hover { border-color: #b7934e; color: #b7934e; }
+
+.luxury-panel { border-color: var(--panel-border); background: var(--panel-bg); @apply border shadow-luxe backdrop-blur transition duration-200 ease-out; }
+
+.luxury-input { border-color: var(--panel-border); background: var(--panel-input-bg); color: var(--panel-input-fg); @apply w-full border px-4 py-3 text-sm outline-none transition duration-150 ease-out placeholder:text-stone-400 focus:border-gold focus:shadow-[0_0_0_4px_rgba(183,147,78,.1)]; }
+
+.luxury-label { color: var(--panel-muted); @apply text-xs font-semibold uppercase tracking-[.18em]; }
+
+/* Simple UI animations */
+@keyframes fadeInUp {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pop {
+	from { opacity: 0; transform: scale(.98); }
+	60% { opacity: 1; transform: scale(1.02); }
+	to { transform: scale(1); }
+}
+
+.animate-fade-in { animation: fadeInUp 360ms cubic-bezier(.2,.9,.2,1) both; }
+.animate-pop { animation: pop 320ms cubic-bezier(.2,.9,.2,1) both; }
+
+.focus-glow:focus { box-shadow: 0 6px 18px rgba(183,147,78,0.12); }
