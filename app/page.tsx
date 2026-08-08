@@ -12,7 +12,7 @@ import { addToCart } from '@/store/slices/cartSlice';
 import type { Product } from '@/store/types';
 
 const categories = [
-  { name: 'For Her', gender: 'women', image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyZnVtZXxlbnwwfHwwfHx8MA%3D%3D' },
+  { name: 'For Her', gender: 'women', image: 'https://www.lightxeditor.com/blog/wp-content/uploads/2026/01/image21.webp' },
   { name: 'For Him', gender: 'men', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85' },
   { name: 'Unisex', gender: 'unisex', image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=85' },
   { name: 'Haute Parfumerie', category: 'luxury', image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=85' },
@@ -67,8 +67,8 @@ export default function Home() {
   return (
     <>
       <section className="relative min-h-[72vh] overflow-hidden bg-ink sm:min-h-[82vh]">
-        <img src="https://t4.ftcdn.net/jpg/06/99/14/49/360_F_699144970_uQxDMy5w9G4M9j9IviSEuwtDiYeuXxk2.jpg" alt="Premium luxury perfume in elegant setting" className="absolute inset-0 h-full w-full object-cover opacity-70" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+        <img src="https://www.lightxeditor.com/blog/wp-content/uploads/2026/01/image4-1.webp" alt="Premium luxury perfume in elegant setting" className="absolute inset-0 h-full w-full object-cover object-center" loading="eager" decoding="async" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-transparent" />
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative mx-auto grid min-h-[72vh] max-w-7xl gap-10 px-6 py-12 sm:min-h-[82vh] sm:py-0 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
           <div className="max-w-xl text-white">
             <p className="eyebrow">The art of presence</p>
@@ -291,6 +291,17 @@ export default function Home() {
             <p className="eyebrow">Curated for you</p>
             <h2 className="mt-3 font-serif text-4xl md:text-5xl">Icons of the house</h2>
             <p className="mt-4 mx-auto max-w-2xl text-base leading-7 text-ink/70 dark:text-white/70">A thoughtful selection of scents with undeniable character. Each fragrance in our iconic collection tells a story of craftsmanship, heritage, and timeless elegance.</p>
+
+            <div className="mt-6 flex items-center justify-center gap-4 sm:justify-start">
+              {products.slice(0, 4).map((p: Product) => (
+                <Link key={p._id} href={`/products/${p._id}`} className="group relative block">
+                  <img src={p.images[0]} alt={p.name} className="h-24 w-24 rounded-full object-cover ring-1 ring-white/10 transition-transform duration-200 group-hover:scale-105" />
+                  <div className="absolute inset-0 flex items-end justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <span className="mb-1 rounded-full bg-black/60 px-2 py-1 text-xs text-white">{p.name}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-6 mb-10">
             <div className="flex items-center gap-3">
