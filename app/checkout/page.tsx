@@ -275,7 +275,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 text-white md:grid-cols-[1fr_340px]">
+    <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 text-ink dark:text-white md:grid-cols-[1fr_340px]">
       <div>
         <p className="eyebrow">Secure checkout</p>
         <h1 className="mt-3 font-serif text-4xl">Complete your ritual</h1>
@@ -305,7 +305,7 @@ export default function CheckoutPage() {
         {step === 2 && (
           <section className="luxury-panel mt-8 rounded-3xl p-6">
             <h2 className="font-serif text-2xl">Payment method</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-200">
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-600">
               Choose a secure checkout method. Razorpay supports cards, UPI, wallets, and net banking through a branded payment modal.
             </p>
             <div className="mt-5 space-y-3">
@@ -371,7 +371,7 @@ export default function CheckoutPage() {
         {step === 4 && (
           <section className="luxury-panel mt-8 rounded-3xl p-6">
             <h2 className="font-serif text-2xl">Finalize payment</h2>
-            <p className="mt-4 text-sm leading-7 text-stone-200">
+            <p className="mt-4 text-sm leading-7 text-stone-600">
               {form.paymentMethod === 'razorpay'
                 ? `You will pay ₹${finalAmount.toFixed(2)} securely with Razorpay.`
                 : `You are about to place an order for ₹${finalAmount.toFixed(2)}.`}
@@ -382,7 +382,7 @@ export default function CheckoutPage() {
                   <ShieldCheck size={16} />
                   Razorpay secure checkout
                 </p>
-                <p className="mt-2 leading-7 text-stone-200">You’ll be redirected into Razorpay’s payment modal to complete the transaction and verify it before the order is created.</p>
+                <p className="mt-2 leading-7 text-stone-600">You’ll be redirected into Razorpay’s payment modal to complete the transaction and verify it before the order is created.</p>
               </div>
             )}
             {paymentError && <p className="mt-4 rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-300">{paymentError}</p>}
@@ -403,9 +403,9 @@ export default function CheckoutPage() {
       <aside className="space-y-5">
         <div className="luxury-panel rounded-3xl p-6">
           <p className="eyebrow">Order total</p>
-          <p className="mt-4 font-serif text-4xl">₹{finalAmount.toFixed(2)}</p>
+          <p className="mt-4 font-serif text-4xl text-ink">₹{finalAmount.toFixed(2)}</p>
           <div className="my-5 gold-line" />
-          <p className="text-sm leading-6 text-stone-200">Luxury packaging, black-and-gold presentation, and complimentary shipping are included with every order.</p>
+          <p className="text-sm leading-6 text-ink/70">Luxury packaging, black-and-gold presentation, and complimentary shipping are included with every order.</p>
         </div>
 
         <CouponInput

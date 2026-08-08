@@ -22,59 +22,67 @@ const studioNotes = [
 ];
 
 const luxuryFragrances = [
-	{ name: 'Midnight Oud', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=500&q=85', price: '$185' },
-	{ name: 'Golden Essence', image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=500&q=85', price: '$220' },
-	{ name: 'Rose Absolue', image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=500&q=85', price: '$195' },
-	{ name: 'Citrus Luxe', image: 'https://images.unsplash.com/photo-1618498082410-b4aa3d82f0cf?auto=format&fit=crop&w=500&q=85', price: '$165' },
+	{ name: 'Velvet Amber', image: 'https://imgmedia.lbb.in/media/2023/08/64ec7dc214687d307c00b26c_1693220290331.jpg', price: '$185' },
+	{ name: 'Noir Bloom', image: 'https://hips.hearstapps.com/hmg-prod/images/img-2857-jpg-6920aa2de3c98.jpg?crop=1.00xw:0.939xh;0,0.0612xh', price: '$220' },
+	{ name: 'Rose Atelier', image: 'https://mir-s3-cdn-cf.behance.net/projects/404/c5d40f238077057.Y3JvcCwxMDA3LDc4OCwxOTcsMA.png', price: '$195' },
+	{ name: 'Golden Vetiver', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9AxgjZxFMnQmcawdUJCYyhm4xoBVqxt5O4J6wYFWqd5qxZy5Q_p9jBTaO&s=10', price: '$165' },
+	{ name: 'Aurelia Signature', image: 'https://cdn.shopify.com/s/files/1/0673/2664/0426/files/pexels-photo-8450361.webp?v=1716560739', price: '$240' },
+	{ name: 'Silk Petals', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWOyDZTfYmAcVFfWprV80oT2DKuOD6MauGNGvE3NTg-J9U6Yhmn4mJi08&s=10', price: '$205' },
+	{ name: 'Velvet Rose', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk9G7sNFGlFudy3rEP_RewvKe1Fdn5R-RxBaxA-Muz-kOxU1M096C2Fjyl&s=10', price: '$210' },
+	{ name: 'Golden Noir', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9u1yuJMiN667gSyQc4oTqB15p_Gz35TTbti96oKvtH8PMEkRRjKAtugSr&s=10', price: '$225' },
 ];
 
 export default function AboutPage() {
 	return (
 		<div>
-			<section className="mx-auto grid max-w-7xl gap-8 px-6 py-12 sm:py-16 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
-				<div className="space-y-8">
-					<div>
-						<SectionHeading
-							eyebrow="Our story"
-							title="Perfume, edited with feeling."
-							copy="Aurelia began with a simple belief: the right scent does more than smell beautiful. It has the power to bring you back to yourself."
-						/>
-						<p className="max-w-2xl text-sm leading-7 text-ink/70 dark:text-white/70">We work closely with independent noses and small ateliers to curate a focused collection — each composition chosen for its emotional clarity and lasting character. Our team tastes collectively, shops consciously, and serves personally.</p>
-					</div>
-					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{principles.map((principle) => {
-							const Icon = principle.icon;
-							return (
-								<div key={principle.title} className="luxury-panel rounded-3xl p-5">
-									<span className="grid h-11 w-11 place-items-center rounded-full bg-gold/10 text-gold"><Icon size={18} /></span>
-									<h3 className="mt-4 font-serif text-2xl">{principle.title}</h3>
-									<p className="mt-3 text-sm leading-7 text-ink/70 dark:text-white/70">{principle.copy}</p>
-								</div>
-							);
-						})}
-					</div>
-					<div className="flex flex-wrap gap-3">
-						<Link href="/products" className="button-gold gap-2">Shop the edit <ArrowRight size={15} /></Link>
-						<Link href="/contact" className="button-outline">Speak to a concierge</Link>
-					</div>
-				</div>
+			<section className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-8">
+				<div className="grid gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
+					<div className="space-y-10">
+						<div className="max-w-2xl">
+							<SectionHeading
+								eyebrow="Our story"
+								title="Perfume, edited with feeling."
+								copy="Aurelia began with a simple belief: the right scent does more than smell beautiful. It has the power to bring you back to yourself."
+							/>
+							<p className="mt-6 text-base leading-8 text-ink/70 dark:text-white/70">We work closely with independent noses and small ateliers to curate a focused collection — each composition chosen for its emotional clarity and lasting character. Our team tastes collectively, shops consciously, and serves personally.</p>
+						</div>
 
-				<div className="relative">
-					<div className="absolute -inset-4 -z-10 rounded-[2.25rem] bg-[radial-gradient(circle_at_top,_rgba(183,147,78,.2),transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(20,18,15,.16),transparent_30%)] blur-2xl" />
-					<div className="luxury-panel overflow-hidden rounded-[2rem]">
-						<img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1200&q=85" alt="Aurelia atelier" className="h-[320px] w-full object-cover sm:h-[420px]" />
-						<div className="grid gap-4 border-t border-ink/10 p-6 sm:grid-cols-3 dark:border-white/10">
-							<div>
-								<p className="eyebrow">Founded</p>
-								<p className="mt-2 font-serif text-2xl sm:text-3xl">2018</p>
-							</div>
-							<div>
-								<p className="eyebrow">Collections</p>
-								<p className="mt-2 font-serif text-2xl sm:text-3xl">Curated</p>
-							</div>
-							<div>
-								<p className="eyebrow">Service</p>
-								<p className="mt-2 font-serif text-2xl sm:text-3xl">Concierge</p>
+						<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+							{principles.map((principle) => {
+								const Icon = principle.icon;
+								return (
+									<div key={principle.title} className="luxury-panel rounded-3xl p-5">
+										<span className="grid h-11 w-11 place-items-center rounded-full bg-gold/10 text-gold"><Icon size={18} /></span>
+										<h3 className="mt-4 font-serif text-2xl">{principle.title}</h3>
+										<p className="mt-3 text-sm leading-7 text-ink/70 dark:text-white/70">{principle.copy}</p>
+									</div>
+								);
+							})}
+						</div>
+
+						<div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+							<Link href="/products" className="button-gold gap-2">Shop the edit <ArrowRight size={15} /></Link>
+							<Link href="/contact" className="button-outline">Speak to a concierge</Link>
+						</div>
+					</div>
+
+					<div className="relative">
+						<div className="absolute -inset-4 -z-10 rounded-[2.25rem] bg-[radial-gradient(circle_at_top,_rgba(183,147,78,.2),transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(20,18,15,.16),transparent_30%)] blur-2xl" />
+						<div className="luxury-panel overflow-hidden rounded-[2rem]">
+							<img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1200&q=85" alt="Aurelia atelier" className="h-[320px] w-full object-cover sm:h-[420px]" />
+							<div className="grid gap-4 border-t border-ink/10 p-6 sm:grid-cols-3 dark:border-white/10">
+								<div>
+									<p className="eyebrow">Founded</p>
+									<p className="mt-2 font-serif text-2xl sm:text-3xl">2018</p>
+								</div>
+								<div>
+									<p className="eyebrow">Collections</p>
+									<p className="mt-2 font-serif text-2xl sm:text-3xl">Curated</p>
+								</div>
+								<div>
+									<p className="eyebrow">Service</p>
+									<p className="mt-2 font-serif text-2xl sm:text-3xl">Concierge</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -117,62 +125,53 @@ export default function AboutPage() {
 			</section>
 
 			<section className="mx-auto max-w-7xl px-6 py-20">
-				<SectionHeading eyebrow="Meet the team" title="People behind Aurelia" copy="A small group of editors, curators, and operators working with one shared standard." />
-				<div className="grid gap-6 lg:grid-cols-[1.05fr_.95fr]">
-					<div className="grid gap-6 sm:grid-cols-2">
-						{[
-							{ name: 'Isabella Maren', role: 'Founder & Director', image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80' },
-							{ name: 'Olivier Blanche', role: 'Head of Curation', image: 'https://images.unsplash.com/photo-1546456073-6712f79251bb?auto=format&fit=crop&w=600&q=80' },
-							{ name: 'Maya Hart', role: 'Fragrance Concierge', image: 'https://images.unsplash.com/photo-1545996124-1b4f6d5b1f1f?auto=format&fit=crop&w=600&q=80' },
-							{ name: 'Jonas Reed', role: 'Operations', image: 'https://images.unsplash.com/photo-1544006659-f0b21884ce1d?auto=format&fit=crop&w=600&q=80' },
-						].map((member) => (
-							<div key={member.name} className="luxury-panel overflow-hidden rounded-3xl">
-								<img src={member.image} alt={member.name} className="h-56 w-full object-cover" />
-								<div className="p-5">
-									<p className="font-serif text-2xl">{member.name}</p>
-									<p className="mt-1 text-sm text-ink/60 dark:text-white/60">{member.role}</p>
+			<div className="relative rounded-[2rem] bg-[url('https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1600&q=80')] bg-cover bg-center">
+				<div className="absolute inset-0 bg-black/30" />
+				<div className="relative overflow-hidden rounded-[2rem] border border-ink/10 bg-white/90 p-6 shadow-luxe dark:border-white/10 dark:bg-[#0b0a08]/90">
+					<div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent dark:from-black dark:to-transparent" />
+					<div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent dark:from-black dark:to-transparent" />
+					<div className="carousel-track">
+						{[...luxuryFragrances, ...luxuryFragrances].map((item, index) => (
+							<div key={`${item.name}-${index}`} className="carousel-card">
+								<img src={item.image} alt={item.name} className="h-[380px] w-full object-cover object-center sm:h-[420px]" />
+								<div className="carousel-copy">
+									<p className="text-xs font-semibold uppercase tracking-[.22em] text-gold">Signature bottle</p>
+									<h3 className="mt-3 font-serif text-2xl text-ink dark:text-white">{item.name}</h3>
+									<p className="mt-2 text-sm leading-7 text-ink/70 dark:text-white/70">{item.price} · A refined fragrance for special evenings, gifts, and unforgettable moments.</p>
 								</div>
 							</div>
 						))}
 					</div>
-					<div className="luxury-panel rounded-[2rem] p-8">
-						<p className="eyebrow">Inside the atelier</p>
-						<h3 className="mt-3 font-serif text-4xl">A house shaped by taste, not volume.</h3>
-						<p className="mt-4 text-sm leading-7 text-ink/70 dark:text-white/70">We care about how a fragrance lands in the room, how it settles over time, and how it feels when it becomes part of someone’s routine. That lens keeps the collection focused and the service human.</p>
-						<div className="mt-6 grid gap-3 sm:grid-cols-2">
-							{['Sampling', 'Gift guidance', 'Occasion edits', 'Signature discovery'].map((item) => (
-								<div key={item} className="rounded-2xl border border-ink/10 bg-white/70 px-4 py-3 text-sm text-ink dark:border-white/10 dark:bg-white/5 dark:text-white/80">{item}</div>
-							))}
-						</div>
-					</div>
 				</div>
-			</section>
+			</div>
+		</section>
 
-			<section className="bg-ink px-6 py-16 text-white">
-				<div className="mx-auto max-w-7xl">
-					<div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
-						<div>
-							<p className="eyebrow">Timeline</p>
-							<h3 className="mt-4 font-serif text-4xl">The house has grown deliberately.</h3>
-							<p className="mt-4 max-w-lg text-sm leading-7 text-stone-300">Each milestone marked a refinement in how we curate, present, and support the collection.</p>
-						</div>
-						<div className="space-y-4">
-							{timeline.map((item) => (
-								<div key={item.year} className="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-									<div className="flex flex-wrap items-start gap-4">
-										<div className="grid h-12 w-12 place-items-center rounded-full bg-gold/15 text-gold"><Clock3 size={18} /></div>
-										<div className="min-w-0 flex-1">
-											<p className="text-xs font-bold uppercase tracking-[.22em] text-gold">{item.year}</p>
-											<h4 className="mt-2 font-serif text-2xl text-white">{item.title}</h4>
-											<p className="mt-2 text-sm leading-7 text-stone-300">{item.copy}</p>
-										</div>
+		<section className="bg-ink px-6 py-16 text-white">
+			<div className="mx-auto max-w-7xl">
+				<div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
+					<div>
+						<p className="eyebrow">Timeline</p>
+						<h3 className="mt-4 font-serif text-4xl">The house has grown deliberately.</h3>
+						<p className="mt-4 max-w-lg text-sm leading-7 text-stone-300">Each milestone marked a refinement in how we curate, present, and support the collection.</p>
+					</div>
+					<div className="space-y-4">
+						{timeline.map((item) => (
+							<div key={item.year} className="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+								<div className="flex flex-wrap items-start gap-4">
+									<div className="grid h-12 w-12 place-items-center rounded-full bg-gold/15 text-gold"><Clock3 size={18} /></div>
+									<div className="min-w-0 flex-1">
+										<p className="text-xs font-bold uppercase tracking-[.22em] text-gold">{item.year}</p>
+										<h4 className="mt-2 font-serif text-2xl text-white">{item.title}</h4>
+										<p className="mt-2 text-sm leading-7 text-stone-300">{item.copy}</p>
 									</div>
 								</div>
-							))}
-						</div>
+							</div>
+						))}
 					</div>
 				</div>
-			</section>
-		</div>
-	);
+			</div>
+		</section>
+    </div>
+  );
 }
+

@@ -9,9 +9,10 @@ import { SectionHeading } from '@/components/section-heading';
 import { useProducts } from '@/hooks/use-products';
 import { useAppSelector, useAppDispatch } from '@/store/hooks';
 import { addToCart } from '@/store/slices/cartSlice';
+import type { Product } from '@/store/types';
 
 const categories = [
-  { name: 'For Her', gender: 'women', image: 'https://images.unsplash.com/photo-1618498082410-b4aa3d82f0cf?auto=format&fit=crop&w=800&q=85' },
+  { name: 'For Her', gender: 'women', image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyZnVtZXxlbnwwfHwwfHx8MA%3D%3D' },
   { name: 'For Him', gender: 'men', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85' },
   { name: 'Unisex', gender: 'unisex', image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=85' },
   { name: 'Haute Parfumerie', category: 'luxury', image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=85' },
@@ -55,7 +56,7 @@ export default function Home() {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: Product) => {
     if (!user) {
       router.push('/login');
       return;
@@ -66,7 +67,7 @@ export default function Home() {
   return (
     <>
       <section className="relative min-h-[72vh] overflow-hidden bg-ink sm:min-h-[82vh]">
-        <img src="https://images.unsplash.com/photo-1615634260174-5491b4e5fb18?auto=format&fit=crop&w=2000&q=90" alt="Premium luxury perfume bottles on marble surface" className="absolute inset-0 h-full w-full object-cover opacity-70" />
+        <img src="https://t4.ftcdn.net/jpg/06/99/14/49/360_F_699144970_uQxDMy5w9G4M9j9IviSEuwtDiYeuXxk2.jpg" alt="Premium luxury perfume in elegant setting" className="absolute inset-0 h-full w-full object-cover opacity-70" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative mx-auto grid min-h-[72vh] max-w-7xl gap-10 px-6 py-12 sm:min-h-[82vh] sm:py-0 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
           <div className="max-w-xl text-white">
@@ -140,24 +141,20 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-6 py-20">
         <SectionHeading eyebrow="Exclusive drops" title="This month's most coveted scents" copy="Hand-selected rare compositions that capture the essence of luxury." />
         <div className="grid gap-8 md:grid-cols-3">
-          {[
-            { name: 'Midnight Oud', price: '$185', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=500&q=85', badge: 'Limited Edition', notes: 'Oud, Rose, Cedarwood' },
-            { name: 'Golden Reverie', price: '$220', image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=500&q=85', badge: 'Bestseller', notes: 'Amber, Vanilla, Sandalwood' },
-            { name: 'Jasmine Noir', price: '$195', image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=500&q=85', badge: 'New', notes: 'Jasmine, Patchouli, Musk' },
-          ].map((fragrance) => (
-            <div key={fragrance.name} className="luxury-panel group overflow-hidden rounded-3xl transition hover:border-gold/50">
+          {products.slice(0, 3).map((product: Product, idx: number) => (
+            <div key={product._id} className="luxury-panel group overflow-hidden rounded-3xl transition hover:border-gold/50">
               <div className="relative overflow-hidden">
-                <img src={fragrance.image} alt={fragrance.name} className="h-80 w-full object-cover transition duration-500 group-hover:scale-110" />
+                <img src={product.images[0]} alt={product.name} className="h-80 w-full object-cover transition duration-500 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute right-4 top-4">
-                  <span className="inline-block rounded-full bg-gold/20 px-3 py-1 text-[10px] font-bold uppercase tracking-[.18em] text-gold border border-gold/40">{fragrance.badge}</span>
+                  <span className="inline-block rounded-full bg-gold/20 px-3 py-1 text-[10px] font-bold uppercase tracking-[.18em] text-gold border border-gold/40">#{idx + 1} Pick</span>
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="font-serif text-2xl text-ink dark:text-white">{fragrance.name}</h3>
-                <p className="mt-2 text-xs uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500">{fragrance.notes}</p>
-                <p className="mt-4 font-serif text-xl font-semibold text-gold">{fragrance.price}</p>
-                <button onClick={() => handleAddToCart({ name: fragrance.name, price: parseFloat(fragrance.price.replace('$', '')), images: [fragrance.image], _id: fragrance.name.replace(/\s+/g, '-').toLowerCase() })} className="button-gold mt-5 w-full">Add to cart</button>
+                <h3 className="font-serif text-2xl text-ink dark:text-white">{product.name}</h3>
+                <p className="mt-2 text-xs uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500">{product.fragranceNotes.join(', ')}</p>
+                <p className="mt-4 font-serif text-xl font-semibold text-gold">${product.price}</p>
+                <button onClick={() => handleAddToCart(product)} className="button-gold mt-5 w-full">Add to cart</button>
               </div>
             </div>
           ))}
@@ -190,8 +187,8 @@ export default function Home() {
       </section>
 
       {/* Bestsellers Showcase */}
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
           <div>
             <p className="eyebrow">Customer favorites</p>
             <h2 className="mt-3 font-serif text-4xl">Best sellers of the season</h2>
@@ -201,7 +198,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {products.slice(0, 3).map((product, idx) => (
+          {products.slice(0, 3).map((product: Product, idx: number) => (
             <div key={product._id} className="luxury-panel overflow-hidden rounded-3xl group">
               <div className="relative overflow-hidden h-72">
                 <img src={product.images[0]} alt={product.name} className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
@@ -224,20 +221,20 @@ export default function Home() {
       </section>
 
       {/* Premium Gifting Section */}
-      <section className="bg-gradient-to-b from-transparent to-gold/5 px-6 py-20">
+      <section className="bg-gradient-to-b from-transparent to-gold/5 px-6 py-16">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
             <div>
               <p className="eyebrow">Luxury gifting</p>
               <h2 className="mt-3 font-serif text-5xl leading-tight">Give the gift of fragrance</h2>
               <p className="mt-6 max-w-lg text-base leading-8 text-stone-600 dark:text-stone-400">Every Aurelia fragrance arrives in luxury black-and-gold packaging, complete with custom gift wrapping and a personalized message card.</p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link href="/products" className="button-gold">Shop gift sets</Link>
                 <Link href="/contact" className="button-outline">Book concierge</Link>
               </div>
             </div>
             <div className="relative">
-              <img src="https://images.unsplash.com/photo-1513885705220-83bed754d5e6?auto=format&fit=crop&w=600&q=85" alt="Luxury gift wrapped perfumes" className="rounded-3xl shadow-2xl" />
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCC2dUo-hyRIDCXDVG24a-t8RoHw8mZzTgxkM1RGO9jYS4Hs3liKwG3SQS&s=10" alt="Luxury gift wrapped perfumes" className="rounded-3xl shadow-2xl" />
             </div>
           </div>
         </div>
@@ -286,16 +283,34 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading eyebrow="Curated for you" title="Icons of the house" copy="A thoughtful selection of scents with undeniable character." />
-          <div className="luxury-panel flex items-center gap-3 rounded-full px-4 py-3 text-xs uppercase tracking-[.2em] text-ink/70 dark:text-white/70">
-            <Star size={14} className="text-gold" />
-            New edit available now
+      <section className="relative overflow-hidden bg-cream px-6 py-20 dark:bg-ink/50">
+        <img src="https://img.magnific.com/free-photo/front-view-perfume-bottle-flowers-beige-blurred-background-free-space_140725-145507.jpg?semt=ais_test_b&w=740&q=80" alt="Perfume with flowers background" className="absolute inset-0 h-full w-full object-cover opacity-15" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/75 dark:from-black/90 dark:via-black/85 dark:to-black/80" />
+        <div className="relative mx-auto max-w-7xl">
+          <div className="mb-12 text-center">
+            <p className="eyebrow">Curated for you</p>
+            <h2 className="mt-3 font-serif text-4xl md:text-5xl">Icons of the house</h2>
+            <p className="mt-4 mx-auto max-w-2xl text-base leading-7 text-ink/70 dark:text-white/70">A thoughtful selection of scents with undeniable character. Each fragrance in our iconic collection tells a story of craftsmanship, heritage, and timeless elegance.</p>
           </div>
-        </div>
-        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
-          {products.slice(0, 4).map((product) => <ProductCard key={product._id} product={product} />)}
+          <div className="flex flex-wrap items-center justify-between gap-6 mb-10">
+            <div className="flex items-center gap-3">
+              <Star size={16} className="text-gold" />
+              <span className="text-xs uppercase tracking-[.18em] font-semibold text-ink dark:text-white">Bestselling fragrances</span>
+            </div>
+            <div className="luxury-panel flex items-center gap-3 rounded-full px-4 py-3 text-xs uppercase tracking-[.2em] text-ink/70 dark:text-white/70">
+              <Star size={14} className="text-gold" />
+              New edit available now
+            </div>
+          </div>
+          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+            {products.slice(0, 4).map((product: Product) => <ProductCard key={product._id} product={product} />)}
+          </div>
+          <div className="mt-12 text-center">
+            <p className="text-sm leading-7 text-ink/60 dark:text-white/60">Discover the complete collection and find your signature scent</p>
+            <Link href="/products" className="button-gold mt-6 inline-flex">
+              Explore all icons <ArrowRight className="ml-2" size={15} />
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -14,12 +14,12 @@ type CouponInputProps = {
 
 export function CouponInput({ value, onChange, onApply, onRemove, loading = false, applied = false, error }: CouponInputProps) {
   return (
-    <section className="rounded-3xl border border-white/10 bg-black/20 p-5 shadow-lg shadow-black/20">
+    <section className="luxury-panel rounded-3xl p-5 border border-ink/10 bg-white/95 text-ink shadow-lg shadow-black/5">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="eyebrow">Coupon</p>
-          <h2 className="mt-2 font-serif text-2xl text-white">Apply a perfume offer</h2>
-          <p className="mt-2 text-sm leading-6 text-stone-400">Use a promo code to unlock the best available scent savings.</p>
+          <h2 className="mt-2 font-serif text-2xl text-ink">Apply a perfume offer</h2>
+          <p className="mt-2 text-sm leading-6 text-stone-600">Use a promo code to unlock the best available scent savings.</p>
         </div>
         {applied && <span className="rounded-full border border-gold/40 bg-gold/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[.18em] text-gold">Applied</span>}
       </div>

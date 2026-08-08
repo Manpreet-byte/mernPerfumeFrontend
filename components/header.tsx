@@ -25,12 +25,22 @@ export function Header() {
       </div>
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 text-ink dark:text-white">
         <button className="md:hidden" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
-        <Link href="/" className="font-serif text-2xl tracking-[.25em]">AURELIA</Link>
-        <nav className="hidden items-center gap-8 md:flex">{links.map(([label, href]) => <Link key={label} href={href} className="text-xs font-bold uppercase tracking-[.14em] transition hover:text-gold">{label}</Link>)}</nav>
+
+        <div className="hidden items-center gap-8 md:flex">
+          <Link href="/" className="font-serif text-2xl tracking-[.25em]">AURELIA</Link>
+          <nav className="flex items-center gap-8">{links.map(([label, href]) => <Link key={label} href={href} className="text-xs font-bold uppercase tracking-[.14em] transition hover:text-gold">{label}</Link>)}</nav>
+        </div>
+
         <div className="flex items-center gap-4">
           <Link href="/products"><Search size={18} /></Link>
           {user && <Link href="/profile" className="hidden sm:block"><UserRound size={18} /></Link>}
           <Link href="/wishlist"><Heart size={18} /></Link>
+          { !user && (
+            <div className="hidden md:flex items-center gap-4">
+              <Link href="/login" className="text-xs font-bold uppercase tracking-[.14em] transition hover:text-gold">Sign in</Link>
+              <Link href="/signup" className="text-xs font-bold uppercase tracking-[.14em] transition hover:text-gold">Sign up</Link>
+            </div>
+          )}
           <Link href="/cart" className="relative">
             <ShoppingBag size={18} />
             {count > 0 && <span className="absolute -right-2 -top-2 grid h-4 w-4 place-items-center rounded-full bg-gold text-[9px] text-white">{count}</span>}
@@ -39,6 +49,10 @@ export function Header() {
             {mounted && resolvedTheme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>
         </div>
+      </div>
+
+      <div className="mx-auto flex items-center justify-center border-t border-ink/10 bg-white/80 py-4 text-ink dark:border-white/10 dark:bg-black/80 md:hidden">
+        <Link href="/" className="font-serif text-2xl tracking-[.25em]">AURELIA</Link>
       </div>
       {open && (
         <nav className="flex flex-col gap-5 border-t border-ink/10 bg-white px-6 py-6 text-ink dark:border-white/10 dark:bg-black dark:text-white md:hidden">

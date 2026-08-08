@@ -147,21 +147,21 @@ export default function ProductsPage() {
     <div className="space-y-6">
       <div>
         <h3 className="luxury-label">Category</h3>
-        <select className="luxury-input mt-2" value={category} onChange={(event) => setCategory(event.target.value)}>
+        <select className="luxury-input luxury-select mt-2" value={category} onChange={(event) => setCategory(event.target.value)}>
           <option value="">All categories</option>
           {categories.map((item) => <option key={item._id} value={item.slug}>{item.name}</option>)}
         </select>
       </div>
       <div>
         <h3 className="luxury-label">Brand</h3>
-        <select className="luxury-input mt-2" value={brand} onChange={(event) => setBrand(event.target.value)}>
+        <select className="luxury-input luxury-select mt-2" value={brand} onChange={(event) => setBrand(event.target.value)}>
           <option value="">All brands</option>
           {allBrands.map((item) => <option key={item} value={item}>{item}</option>)}
         </select>
       </div>
       <div>
         <h3 className="luxury-label">Gender</h3>
-        <select className="luxury-input mt-2" value={gender} onChange={(event) => setGender(event.target.value)}>
+        <select className="luxury-input luxury-select mt-2" value={gender} onChange={(event) => setGender(event.target.value)}>
           <option value="">All</option>
           <option value="men">Men</option>
           <option value="women">Women</option>
@@ -178,7 +178,7 @@ export default function ProductsPage() {
       </div>
       <div>
         <h3 className="luxury-label">Rating</h3>
-        <select className="luxury-input mt-2" value={rating} onChange={(event) => setRating(Number(event.target.value))}>
+        <select className="luxury-input luxury-select mt-2" value={rating} onChange={(event) => setRating(Number(event.target.value))}>
           <option value={0}>All ratings</option>
           <option value={4.5}>4.5 and above</option>
           <option value={4}>4 and above</option>
@@ -248,7 +248,7 @@ export default function ProductsPage() {
             <p className="text-sm text-stone-300">{loading ? 'Discovering scents…' : `${totalProducts} fragrances found`}</p>
             <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2">
               <SlidersHorizontal size={15} />
-              <select className="bg-transparent text-sm outline-none" value={sort} onChange={(event) => setSort(event.target.value as ProductQuery['sort'])}>
+              <select className="luxury-select bg-transparent text-sm outline-none" value={sort} onChange={(event) => setSort(event.target.value as ProductQuery['sort'])}>
                 {SORT_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
               </select>
             </div>
