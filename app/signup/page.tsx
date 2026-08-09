@@ -9,6 +9,7 @@ import { register } from '@/store/slices/authSlice';
 import { AuthShell } from '@/components/auth-shell';
 import { GoogleAuthButton } from '@/components/google-auth-button';
 import { getGoogleAuthUrl } from '@/utils/auth';
+import { PerfumeCarousel } from '@/components/perfume-carousel';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -37,6 +38,14 @@ export default function SignupPage() {
       title="Create your Aurelia profile."
       copy="Set up an account with email or let Google handle the onboarding in a single polished step."
       highlights={highlights}
+      media={
+        <PerfumeCarousel
+          eyebrow="New membership"
+          title="Perfume inspiration before signup."
+          copy="A polished carousel of fragrance imagery to set the tone for your account creation."
+          badge="Less than a minute"
+        />
+      }
     >
       <div className="text-ink dark:text-white">
         <div className="flex items-center justify-between gap-4">

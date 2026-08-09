@@ -9,6 +9,7 @@ import { fetchCurrentUser, login } from '@/store/slices/authSlice';
 import { AuthShell } from '@/components/auth-shell';
 import { GoogleAuthButton } from '@/components/google-auth-button';
 import { getGoogleAuthUrl } from '@/utils/auth';
+import { PerfumeCarousel } from '@/components/perfume-carousel';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -65,6 +66,14 @@ export default function LoginPage() {
       title="Sign in to your Aurelia account."
       copy="Pick up your fragrance journey exactly where you left off with a refined email login or a single Google tap."
       highlights={highlights}
+      media={
+        <PerfumeCarousel
+          eyebrow="Aurelia account"
+          title="A rotating perfume gallery."
+          copy="Browse a curated carousel of luxury fragrance imagery while you sign in."
+          badge="2-minute access"
+        />
+      }
     >
       <div className="text-ink dark:text-white">
         <div className="flex items-center justify-between gap-4">

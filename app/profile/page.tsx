@@ -1,17 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Sparkles, WandSparkles, ShieldCheck } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchCurrentUser, logout } from '@/store/slices/authSlice';
 import { AuthShell } from '@/components/auth-shell';
+import { api } from '@/services/api';
 
 export default function ProfilePage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user, loading } = useAppSelector((state) => state.auth);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(false);
 
   const highlights = [
   { title: 'Fresh start', copy: 'Your saved session is cleared, but your fragrance history is still only a sign in away.', icon: Sparkles },
@@ -21,6 +24,20 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (!user) dispatch(fetchCurrentUser());
+    else {
+      const fetchOrders = async () => {
+        try {
+          setOrdersLoading(true);
+          const response = await api.get('/orders');
+          setOrders(response.data);
+        } catch (err) {
+          console.error('Failed to fetch orders:', err);
+        } finally {
+          setOrdersLoading(false);
+        }
+      };
+      fetchOrders();
+    }
   }, [dispatch, user]);
 
   if (loading && !user) return <div className="mx-auto max-w-4xl px-6 py-20 text-black dark:text-white"><h1 className="font-serif text-5xl">Your account</h1><p className="mt-5 text-black">Loading profile…</p></div>;
@@ -81,7 +98,7 @@ export default function ProfilePage() {
             </div>
             <div className="rounded-3xl border border-white/10 bg-white/10 p-5 text-black dark:text-white shadow-[0_24px_60px_rgba(0,0,0,.12)]">
               <p className="text-xs uppercase tracking-[.24em] text-gold">Orders</p>
-              <p className="mt-3 font-serif text-3xl">Recent activity</p>
+              <p className="mt-3 font-serif text-3xl">{ordersLoading ? '...' : orders.length > 0 ? `${orders.length} ${orders.length === 1 ? 'order' : 'orders'}` : 'No orders yet'}</p>
             </div>
           </div>
         </div>
@@ -113,9 +130,13 @@ export default function ProfilePage() {
           <div className="mt-6 space-y-4">
             <div className="rounded-3xl border border-black/10 bg-black/5 p-4 dark:border-white/10 dark:bg-white/5">
               <p className="text-xs uppercase tracking-[.22em] text-black/70 dark:text-stone-400">Status</p>
-              <p className="mt-2 font-medium text-black dark:text-white">No recent orders yet</p>
+              <p className="mt-2 font-medium text-black dark:text-white">{ordersLoading ? 'Loading...' : orders.length > 0 ? `${orders.length} ${orders.length === 1 ? 'order' : 'orders'} in your account` : 'No orders yet'}</p>
             </div>
-            <Link href="/products" className="button-outline mt-2 text-black border-black/20 hover:border-gold hover:text-gold">Discover fragrance</Link>
+            {orders.length > 0 ? (
+              <Link href="/orders" className="button-outline mt-2 text-black border-black/20 hover:border-gold hover:text-gold">View orders</Link>
+            ) : (
+              <Link href="/products" className="button-outline mt-2 text-black border-black/20 hover:border-gold hover:text-gold">Start shopping</Link>
+            )}
           </div>
         </section>
       </div>
