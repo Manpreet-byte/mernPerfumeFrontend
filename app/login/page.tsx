@@ -47,7 +47,7 @@ export default function LoginPage() {
     (async () => {
       const result = await dispatch(fetchCurrentUser());
       if (fetchCurrentUser.fulfilled.match(result)) {
-        router.replace(result.payload.role === 'admin' ? '/admin' : '/profile');
+        router.replace('/');
       } else {
         setGoogleMessage('Google login succeeded, but profile could not be loaded. Please retry.');
       }
@@ -57,7 +57,7 @@ export default function LoginPage() {
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const result = await dispatch(login(form));
-    if (login.fulfilled.match(result)) router.push(result.payload.user.role === 'admin' ? '/admin' : '/profile');
+    if (login.fulfilled.match(result)) router.push('/');
   };
 
   return (

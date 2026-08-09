@@ -29,7 +29,7 @@ export default function SignupPage() {
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const result = await dispatch(register(form));
-    if (register.fulfilled.match(result)) router.push('/profile');
+    if (register.fulfilled.match(result)) router.push('/');
   };
 
   return (
