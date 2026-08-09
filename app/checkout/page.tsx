@@ -8,6 +8,7 @@ import { api } from '@/services/api';
 import { clearCart } from '@/store/slices/cartSlice';
 import { CouponInput } from './CouponInput';
 import { DiscountSummary } from './DiscountSummary';
+import { fetchProducts } from '@/store/slices/productSlice';
 import type { Coupon, CouponValidationResponse } from '@/store/types';
 
 type CheckoutForm = {
@@ -65,6 +66,7 @@ export default function CheckoutPage() {
   const dispatch = useAppDispatch();
   const { items, total } = useAppSelector((state) => state.cart);
   const products = useAppSelector((state) => state.products.products);
+  const productsLoading = useAppSelector((state) => state.products.loading);
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<CheckoutForm>(initialForm);
   const [submitting, setSubmitting] = useState(false);
@@ -77,13 +79,34 @@ export default function CheckoutPage() {
   const [couponError, setCouponError] = useState<string | null>(null);
   const [couponLoading, setCouponLoading] = useState(false);
   const razorpayKeyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
+
+  useEffect(() => {
+    if (!products.length && !productsLoading) {
+      void dispatch(fetchProducts({ page: 1, limit: 100 }));
+    }
+  }, [dispatch, products.length, productsLoading]);
+
+  const normalizeText = (value: string) =>
+    value
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+
   const orderItems = useMemo(() => {
     const mongoIdPattern = /^[a-f\d]{24}$/i;
 
     return items
       .map((item) => {
         const directProductId = mongoIdPattern.test(item.productId) ? item.productId : '';
-        const matchedProduct = products.find((product) => product._id === item.productId || (product.name === item.name && product.brand === item.brand));
+        const itemName = normalizeText(item.name);
+        const itemBrand = normalizeText(item.brand);
+        const matchedProduct = products.find((product) => {
+          const productName = normalizeText(product.name);
+          const productBrand = normalizeText(product.brand);
+          return product._id === item.productId || (productName === itemName && productBrand === itemBrand);
+        });
         const productId = directProductId || matchedProduct?._id || '';
 
         return productId
