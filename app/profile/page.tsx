@@ -3,18 +3,42 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, Sparkles, WandSparkles, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Sparkles, WandSparkles, ShieldCheck, Package, Truck, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchCurrentUser, logout } from '@/store/slices/authSlice';
 import { AuthShell } from '@/components/auth-shell';
 import { api } from '@/services/api';
 
+type OrderProduct = {
+  productId: { _id: string; name: string; slug: string };
+  quantity: number;
+  price: number;
+};
+
+type Order = {
+  _id: string;
+  products: OrderProduct[];
+  orderStatus: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  paymentStatus: 'pending' | 'paid' | 'failed';
+  finalAmount: number;
+  createdAt: string;
+};
+
+const orderStatusConfig = {
+  pending: { label: 'Pending', icon: Clock, className: 'border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-500/30 dark:bg-yellow-500/10 dark:text-yellow-400' },
+  processing: { label: 'Processing', icon: Package, className: 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-400' },
+  shipped: { label: 'Shipped', icon: Truck, className: 'border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-500/30 dark:bg-purple-500/10 dark:text-purple-400' },
+  delivered: { label: 'Delivered', icon: CheckCircle, className: 'border-green-200 bg-green-50 text-green-700 dark:border-green-500/30 dark:bg-green-500/10 dark:text-green-400' },
+  cancelled: { label: 'Cancelled', icon: AlertCircle, className: 'border-red-200 bg-red-50 text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400' },
+};
+
 export default function ProfilePage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user, loading } = useAppSelector((state) => state.auth);
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
+  const [ordersError, setOrdersError] = useState('');
 
   const highlights = [
   { title: 'Fresh start', copy: 'Your saved session is cleared, but your fragrance history is still only a sign in away.', icon: Sparkles },
@@ -28,10 +52,12 @@ export default function ProfilePage() {
       const fetchOrders = async () => {
         try {
           setOrdersLoading(true);
+          setOrdersError('');
           const response = await api.get('/orders');
           setOrders(response.data);
         } catch (err) {
           console.error('Failed to fetch orders:', err);
+          setOrdersError('We could not load your orders right now. Please try again in a moment.');
         } finally {
           setOrdersLoading(false);
         }
@@ -130,11 +156,58 @@ export default function ProfilePage() {
           <div className="mt-6 space-y-4">
             <div className="rounded-3xl border border-black/10 bg-black/5 p-4 dark:border-white/10 dark:bg-white/5">
               <p className="text-xs uppercase tracking-[.22em] text-black/70 dark:text-stone-400">Status</p>
-              <p className="mt-2 font-medium text-black dark:text-white">{ordersLoading ? 'Loading...' : orders.length > 0 ? `${orders.length} ${orders.length === 1 ? 'order' : 'orders'} in your account` : 'No orders yet'}</p>
+              <p className="mt-2 font-medium text-black dark:text-white">
+                {ordersLoading ? 'Loading...' : ordersError ? 'Unable to load orders' : orders.length > 0 ? `${orders.length} ${orders.length === 1 ? 'order' : 'orders'} in your account` : 'No orders yet'}
+              </p>
             </div>
-            {orders.length > 0 ? (
-              <Link href="/orders" className="button-outline mt-2 text-black border-black/20 hover:border-gold hover:text-gold">View orders</Link>
+
+            {ordersError && (
+              <div className="rounded-3xl border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-600 dark:text-rose-300">
+                {ordersError}
+              </div>
+            )}
+
+            {ordersLoading ? (
+              <div className="rounded-3xl border border-black/10 bg-black/5 p-4 text-sm text-black/70 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+                Loading your recent orders…
+              </div>
+            ) : orders.length > 0 ? (
+              <div className="space-y-3">
+                {orders.slice(0, 3).map((order) => {
+                  const statusInfo = orderStatusConfig[order.orderStatus];
+                  const StatusIcon = statusInfo.icon;
+                  const orderDate = new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                  const itemCount = order.products.reduce((count, item) => count + item.quantity, 0);
+
+                  return (
+                    <div key={order._id} className="rounded-3xl border border-black/10 bg-black/5 p-4 dark:border-white/10 dark:bg-white/5">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                        <div>
+                          <p className="text-xs uppercase tracking-[.22em] text-black/60 dark:text-stone-400">Order</p>
+                          <p className="mt-1 font-semibold text-black dark:text-white">{order.products[0]?.productId.name || 'Fragrance order'}</p>
+                          <p className="mt-1 text-sm text-black/70 dark:text-white/70">{itemCount} item{itemCount === 1 ? '' : 's'} · {orderDate}</p>
+                        </div>
+                        <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold ${statusInfo.className}`}>
+                          <StatusIcon size={14} />
+                          {statusInfo.label}
+                        </span>
+                      </div>
+                      <div className="mt-4 flex items-center justify-between border-t border-black/10 pt-4 text-sm dark:border-white/10">
+                        <span className="text-black/60 dark:text-white/60">Total</span>
+                        <span className="font-semibold text-black dark:text-white">₹{order.finalAmount.toFixed(2)}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+                <Link href="/orders" className="button-outline mt-2 text-black border-black/20 hover:border-gold hover:text-gold">View all orders</Link>
+              </div>
             ) : (
+              <div className="rounded-3xl border border-black/10 bg-black/5 p-4 text-sm text-black/70 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
+                No orders yet. Place a fragrance order to see it appear here.
+              </div>
+            )}
+
+            {!ordersLoading && !ordersError && orders.length === 0 && (
               <Link href="/products" className="button-outline mt-2 text-black border-black/20 hover:border-gold hover:text-gold">Start shopping</Link>
             )}
           </div>

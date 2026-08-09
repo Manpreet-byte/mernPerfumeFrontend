@@ -64,6 +64,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { items, total } = useAppSelector((state) => state.cart);
+  const products = useAppSelector((state) => state.products.products);
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<CheckoutForm>(initialForm);
   const [submitting, setSubmitting] = useState(false);
@@ -76,7 +77,21 @@ export default function CheckoutPage() {
   const [couponError, setCouponError] = useState<string | null>(null);
   const [couponLoading, setCouponLoading] = useState(false);
   const razorpayKeyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || '';
-  const orderItems = useMemo(() => items.map((item) => ({ productId: item._id, quantity: item.quantity, price: item.price })), [items]);
+  const orderItems = useMemo(() => {
+    const mongoIdPattern = /^[a-f\d]{24}$/i;
+
+    return items
+      .map((item) => {
+        const directProductId = mongoIdPattern.test(item.productId) ? item.productId : '';
+        const matchedProduct = products.find((product) => product._id === item.productId || (product.name === item.name && product.brand === item.brand));
+        const productId = directProductId || matchedProduct?._id || '';
+
+        return productId
+          ? { productId, quantity: item.quantity, price: item.price }
+          : null;
+      })
+      .filter((entry): entry is { productId: string; quantity: number; price: number } => entry !== null);
+  }, [items, products]);
 
   useEffect(() => {
     if (!appliedCoupon?.code || !couponCode.trim()) {
@@ -141,6 +156,10 @@ export default function CheckoutPage() {
     razorpayPaymentId: string;
     razorpaySignature: string;
   }> = {}) => {
+    if (orderItems.length !== items.length) {
+      throw new Error('Your cart contains an outdated product reference. Please refresh the cart from the product page and try again.');
+    }
+
     await api.post('/orders', {
       products: orderItems,
       shippingAddress: {
@@ -174,7 +193,7 @@ export default function CheckoutPage() {
     try {
       await submitOrder({ paymentStatus: 'pending', paymentProvider: 'cod' });
     } catch (error: any) {
-      setPaymentError(error?.response?.data?.message || 'Unable to place order.');
+      setPaymentError(error?.response?.data?.message || error?.message || 'Unable to place order.');
     } finally {
       setSubmitting(false);
     }
