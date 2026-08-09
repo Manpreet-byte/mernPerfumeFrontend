@@ -120,15 +120,15 @@ export default function ProfilePage() {
   ];
 
   const profileCards = [
-    { label: 'Name', value: user.name },
-    { label: 'Email', value: user.email },
-    { label: 'Role', value: user.role },
-    { label: 'Auth', value: user.authProvider === 'google' ? 'Google' : 'Email' },
-    { label: 'Phone', value: user.phone || 'Not added' },
-    { label: 'Joined', value: user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown' },
+    { label: 'Name', value: user!.name },
+    { label: 'Email', value: user!.email },
+    { label: 'Role', value: user!.role },
+    { label: 'Auth', value: user!.authProvider === 'google' ? 'Google' : 'Email' },
+    { label: 'Phone', value: user!.phone || 'Not added' },
+    { label: 'Joined', value: user!.createdAt ? new Date(user!.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown' },
   ];
 
-  const addresses = (user.addresses || []) as ProfileAddress[];
+  const addresses = (user!.addresses || []) as ProfileAddress[];
   const defaultAddress = addresses.find((address) => address.isDefault) || addresses[0];
 
   if (loading && !user) return <div className="mx-auto max-w-4xl px-6 py-20 text-black dark:text-white"><h1 className="font-serif text-5xl">Your account</h1><p className="mt-5 text-black">Loading profile…</p></div>;
@@ -218,7 +218,7 @@ export default function ProfilePage() {
       <div className="mx-auto max-w-7xl px-6 py-12 sm:px-8">
         <PageHeading
           eyebrow="Customer profile"
-          title={`Welcome back, ${user.name}`}
+          title={`Welcome back, ${user!.name}`}
           description="Your profile now follows the same dashboard language as the admin area, with account details, order tracking, and checkout shortcuts in one place."
           action={
             <div className="flex flex-wrap gap-3">
