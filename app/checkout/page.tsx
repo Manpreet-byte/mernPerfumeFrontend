@@ -321,7 +321,7 @@ export default function CheckoutPage() {
       <div>
         <p className="eyebrow">Secure checkout</p>
         <h1 className="mt-3 font-serif text-4xl">Complete your ritual</h1>
-        <div className="mt-8 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-widest text-black/60">
+        <div className="mt-8 flex flex-wrap gap-2 text-xs font-bold uppercase tracking-widest text-ink/60 dark:text-white/60">
           {['Shipping', 'Payment', 'Review', 'Place order'].map((label, index) => (
             <button key={label} onClick={() => setStep(index + 1)} className={`rounded-full border px-4 py-2 ${step === index + 1 ? 'border-gold text-gold' : 'border-white/10'}`}>
               {label}
@@ -347,7 +347,7 @@ export default function CheckoutPage() {
         {step === 2 && (
           <section className="luxury-panel mt-8 rounded-3xl p-6">
             <h2 className="font-serif text-2xl">Payment method</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-black">
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-ink/75 dark:text-white/75">
               Choose a secure checkout method. Razorpay supports cards, UPI, wallets, and net banking through a branded payment modal.
             </p>
             <div className="mt-5 space-y-3">
@@ -361,8 +361,8 @@ export default function CheckoutPage() {
                       <option.icon size={18} />
                     </span>
                     <span>
-                      <span className="block font-semibold text-black">{option.label}</span>
-                      <span className="mt-1 block text-sm leading-6 text-black/70">{option.copy}</span>
+                      <span className="block font-semibold text-ink dark:text-white">{option.label}</span>
+                      <span className="mt-1 block text-sm leading-6 text-ink/70 dark:text-white/70">{option.copy}</span>
                       {option.value === 'razorpay' && (
                         <span className="mt-3 inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[.2em] text-gold">
                           <BadgeCheck size={12} />
@@ -391,13 +391,13 @@ export default function CheckoutPage() {
                   <img src={item.image} alt={item.name} className="h-16 w-14 rounded-xl object-cover" />
                   <div className="flex-1">
                     <p className="font-serif text-lg">{item.name}</p>
-                    <p className="text-sm text-black/70">Qty {item.quantity}</p>
+                    <p className="text-sm text-ink/70 dark:text-white/70">Qty {item.quantity}</p>
                   </div>
-                  <span className="text-black">₹{(item.price * item.quantity).toFixed(2)}</span>
+                  <span className="text-ink dark:text-white">₹{(item.price * item.quantity).toFixed(2)}</span>
                 </div>
               ))}
             </div>
-            <div className="mt-6 grid gap-2 text-sm text-black/70">
+            <div className="mt-6 grid gap-2 text-sm text-ink/70 dark:text-white/70">
               <p>Shipping to: {form.fullName || 'Not provided'}</p>
               <p>{form.address || 'Address not provided'}</p>
               <p>{form.city} {form.state} {form.pincode}</p>
@@ -413,7 +413,7 @@ export default function CheckoutPage() {
         {step === 4 && (
           <section className="luxury-panel mt-8 rounded-3xl p-6">
             <h2 className="font-serif text-2xl">Finalize payment</h2>
-            <p className="mt-4 text-sm leading-7 text-black">
+            <p className="mt-4 text-sm leading-7 text-ink/75 dark:text-white/75">
               {form.paymentMethod === 'razorpay'
                 ? `You will pay ₹${finalAmount.toFixed(2)} securely with Razorpay.`
                 : `You are about to place an order for ₹${finalAmount.toFixed(2)}.`}
@@ -424,7 +424,7 @@ export default function CheckoutPage() {
                   <ShieldCheck size={16} />
                   Razorpay secure checkout
                 </p>
-                <p className="mt-2 leading-7 text-black">You’ll be redirected into Razorpay’s payment modal to complete the transaction and verify it before the order is created.</p>
+                <p className="mt-2 leading-7 text-ink/75 dark:text-white/75">You’ll be redirected into Razorpay’s payment modal to complete the transaction and verify it before the order is created.</p>
               </div>
             )}
             {paymentError && <p className="mt-4 rounded-2xl border border-rose-500/20 bg-rose-500/10 px-4 py-3 text-sm text-rose-300">{paymentError}</p>}
@@ -445,9 +445,9 @@ export default function CheckoutPage() {
       <aside className="space-y-5">
         <div className="luxury-panel rounded-3xl p-6">
           <p className="eyebrow">Order total</p>
-          <p className="mt-4 font-serif text-4xl text-black">₹{finalAmount.toFixed(2)}</p>
+          <p className="mt-4 font-serif text-4xl text-ink dark:text-white">₹{finalAmount.toFixed(2)}</p>
           <div className="my-5 gold-line" />
-          <p className="text-sm leading-6 text-black/70">Luxury packaging, black-and-gold presentation, and complimentary shipping are included with every order.</p>
+          <p className="text-sm leading-6 text-ink/70 dark:text-white/70">Luxury packaging, black-and-gold presentation, and complimentary shipping are included with every order.</p>
         </div>
 
         <CouponInput

@@ -33,8 +33,22 @@ export type User = {
   name: string;
   email: string;
   role: string;
+  authProvider?: 'local' | 'google';
   phone?: string;
-  address?: string;
+  addresses?: Array<{
+    _id?: string;
+    label?: string;
+    recipient: string;
+    line1: string;
+    line2?: string;
+    city: string;
+    state?: string;
+    postalCode: string;
+    country: string;
+    isDefault?: boolean;
+  }>;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type AuthState = {

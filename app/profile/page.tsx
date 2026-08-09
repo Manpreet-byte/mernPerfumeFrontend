@@ -36,6 +36,19 @@ type OrderRow = {
   total: string;
 };
 
+type ProfileAddress = {
+  _id?: string;
+  label?: string;
+  recipient: string;
+  line1: string;
+  line2?: string;
+  city: string;
+  state?: string;
+  postalCode: string;
+  country: string;
+  isDefault?: boolean;
+};
+
 const orderStatusConfig = {
   pending: { label: 'Pending', icon: Clock, className: 'border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-500/30 dark:bg-yellow-500/10 dark:text-yellow-400' },
   processing: { label: 'Processing', icon: Package, className: 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-400' },
@@ -105,6 +118,18 @@ export default function ProfilePage() {
     { label: 'Cart items', value: `${cartItems.length}`, icon: ShoppingCart },
     { label: 'Checkout ready', value: cartItems.length > 0 ? 'Yes' : 'No', icon: CreditCard },
   ];
+
+  const profileCards = [
+    { label: 'Name', value: user.name },
+    { label: 'Email', value: user.email },
+    { label: 'Role', value: user.role },
+    { label: 'Auth', value: user.authProvider === 'google' ? 'Google' : 'Email' },
+    { label: 'Phone', value: user.phone || 'Not added' },
+    { label: 'Joined', value: user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown' },
+  ];
+
+  const addresses = (user.addresses || []) as ProfileAddress[];
+  const defaultAddress = addresses.find((address) => address.isDefault) || addresses[0];
 
   if (loading && !user) return <div className="mx-auto max-w-4xl px-6 py-20 text-black dark:text-white"><h1 className="font-serif text-5xl">Your account</h1><p className="mt-5 text-black">Loading profile…</p></div>;
 
@@ -197,9 +222,9 @@ export default function ProfilePage() {
           description="Your profile now follows the same dashboard language as the admin area, with account details, order tracking, and checkout shortcuts in one place."
           action={
             <div className="flex flex-wrap gap-3">
-              <Link href="/orders" className="button-outline gap-2 border-ink/20 text-ink hover:border-gold hover:text-gold dark:border-white/15 dark:text-white">
+                <Link href="/orders" className="button-outline gap-2 border-ink/20 text-ink hover:border-gold hover:text-gold dark:border-white/15 dark:text-white">
                 <ClipboardList size={15} />
-                View orders
+                  Track orders
               </Link>
               <Link href={cartItems.length > 0 ? '/checkout' : '/products'} className="button-gold gap-2">
                 <ShoppingBag size={15} />
@@ -236,22 +261,33 @@ export default function ProfilePage() {
             </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <div className="border border-ink/10 bg-stone-50 p-4 dark:border-white/10 dark:bg-white/5">
-                <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">Email</p>
-                <p className="mt-2 font-medium text-ink dark:text-white">{user.email}</p>
+              {profileCards.map((card) => (
+                <div key={card.label} className="border border-ink/10 bg-stone-50 p-4 dark:border-white/10 dark:bg-white/5">
+                  <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">{card.label}</p>
+                  <p className="mt-2 break-words font-medium text-ink dark:text-white">{card.value}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 rounded-3xl border border-ink/10 bg-stone-50 p-5 dark:border-white/10 dark:bg-white/5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">Default address</p>
+                  <p className="mt-2 font-serif text-xl text-ink dark:text-white">{defaultAddress ? defaultAddress.label || 'Saved address' : 'No address saved yet'}</p>
+                </div>
+                <span className="rounded-full border border-gold/20 bg-gold/10 px-3 py-2 text-[10px] font-bold uppercase tracking-[.2em] text-gold">{addresses.length} saved</span>
               </div>
-              <div className="border border-ink/10 bg-stone-50 p-4 dark:border-white/10 dark:bg-white/5">
-                <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">Orders</p>
-                <p className="mt-2 font-medium text-ink dark:text-white">{ordersLoading ? 'Loading…' : orders.length > 0 ? `${orders.length} order${orders.length === 1 ? '' : 's'}` : 'No orders yet'}</p>
-              </div>
-              <div className="border border-ink/10 bg-stone-50 p-4 dark:border-white/10 dark:bg-white/5">
-                <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">Checkout</p>
-                <p className="mt-2 font-medium text-ink dark:text-white">{cartItems.length > 0 ? 'Cart ready' : 'Cart empty'}</p>
-              </div>
-              <div className="border border-ink/10 bg-stone-50 p-4 dark:border-white/10 dark:bg-white/5">
-                <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">Support</p>
-                <p className="mt-2 font-medium text-ink dark:text-white">Concierge ready</p>
-              </div>
+              {defaultAddress ? (
+                <div className="mt-4 space-y-1 text-sm leading-6 text-ink/70 dark:text-white/70">
+                  <p className="font-semibold text-ink dark:text-white">{defaultAddress.recipient}</p>
+                  <p>{defaultAddress.line1}</p>
+                  {defaultAddress.line2 && <p>{defaultAddress.line2}</p>}
+                  <p>{defaultAddress.city}{defaultAddress.state ? `, ${defaultAddress.state}` : ''} {defaultAddress.postalCode}</p>
+                  <p>{defaultAddress.country}</p>
+                </div>
+              ) : (
+                <p className="mt-4 text-sm leading-7 text-ink/70 dark:text-white/70">Add a shipping address once and it will appear here for faster checkout and order tracking.</p>
+              )}
             </div>
 
             <div className="mt-6 flex flex-wrap gap-3">
