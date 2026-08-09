@@ -20,7 +20,7 @@ export default function LoginPage() {
   const [googleMessage, setGoogleMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const googleLoginUrl = useMemo(getGoogleAuthUrl, []);
+  const googleLoginUrl = useMemo(() => getGoogleAuthUrl('/login'), []);
 
   const highlights = [
     { title: 'Resume your ritual', copy: 'Return to saved carts, wishlists, and profile details without starting over.', icon: UserRound },

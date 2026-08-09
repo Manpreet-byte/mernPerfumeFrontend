@@ -1,10 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ArrowRight, Eye, EyeOff, Gift, ShieldCheck, Sparkles } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchCurrentUser } from '@/store/slices/authSlice';
 import { register } from '@/store/slices/authSlice';
 import { AuthShell } from '@/components/auth-shell';
 import { GoogleAuthButton } from '@/components/google-auth-button';
@@ -13,18 +16,46 @@ import { PerfumeCarousel } from '@/components/perfume-carousel';
 
 export default function SignupPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.auth);
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
+  const [googleMessage, setGoogleMessage] = useState('');
 
-  const googleSignupUrl = getGoogleAuthUrl();
+  const googleSignupUrl = getGoogleAuthUrl('/signup');
 
   const highlights = [
     { title: 'Instant account', copy: 'Google can create your Aurelia profile in one step, no extra form fatigue.', icon: Sparkles },
     { title: 'Gift-ready details', copy: 'Save addresses and preferences once so future checkouts move faster.', icon: Gift },
     { title: 'Protected onboarding', copy: 'Every account is set up against the same secure session flow.', icon: ShieldCheck },
   ];
+
+  useEffect(() => {
+    const token = searchParams?.get('token');
+    const googleError = searchParams?.get('googleError');
+    const provider = searchParams?.get('provider');
+
+    if (googleError) {
+      setGoogleMessage('Google sign-up failed. Please try again.');
+      return;
+    }
+
+    if (!token || provider !== 'google') {
+      return;
+    }
+
+    localStorage.setItem('aurelia-token', token);
+
+    (async () => {
+      const result = await dispatch(fetchCurrentUser());
+      if (fetchCurrentUser.fulfilled.match(result)) {
+        router.replace('/');
+      } else {
+        setGoogleMessage('Google sign-up succeeded, but profile could not be loaded. Please retry.');
+      }
+    })();
+  }, [dispatch, router, searchParams]);
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -69,6 +100,12 @@ export default function SignupPage() {
             subtitle="Create your account with one trusted click."
           />
         </div>
+
+        {googleMessage && (
+          <p className="mt-5 rounded-2xl border border-gold/20 bg-gold/10 px-4 py-3 text-sm text-gold">
+            {googleMessage}
+          </p>
+        )}
 
         <div className="my-6 flex items-center gap-3">
           <span className="h-px flex-1 bg-ink/15 dark:bg-white/15" />

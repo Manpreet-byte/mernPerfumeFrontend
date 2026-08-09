@@ -1,1 +1,1 @@
-export const getGoogleAuthUrl = () => `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/auth/google`;
+export const getGoogleAuthUrl = (returnTo: '/login' | '/signup') => `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/auth/google?returnTo=${encodeURIComponent(returnTo)}`;
