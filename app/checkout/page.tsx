@@ -86,8 +86,8 @@ export default function CheckoutPage() {
     }
   }, [dispatch, products.length, productsLoading]);
 
-  const normalizeText = (value: string) =>
-    value
+  const normalizeText = (value?: string | null) =>
+    (value || '')
       .normalize('NFKD')
       .replace(/[\u0300-\u036f]/g, '')
       .toLowerCase()
