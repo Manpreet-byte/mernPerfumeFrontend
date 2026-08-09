@@ -50,7 +50,7 @@ export default function SignupPage() {
     (async () => {
       const result = await dispatch(fetchCurrentUser());
       if (fetchCurrentUser.fulfilled.match(result)) {
-        router.replace('/');
+        router.replace('/profile');
       } else {
         setGoogleMessage('Google sign-up succeeded, but profile could not be loaded. Please retry.');
       }

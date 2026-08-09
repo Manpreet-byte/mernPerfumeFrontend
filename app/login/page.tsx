@@ -47,7 +47,7 @@ export default function LoginPage() {
     (async () => {
       const result = await dispatch(fetchCurrentUser());
       if (fetchCurrentUser.fulfilled.match(result)) {
-        router.replace('/');
+        router.replace('/profile');
       } else {
         setGoogleMessage('Google login succeeded, but profile could not be loaded. Please retry.');
       }
