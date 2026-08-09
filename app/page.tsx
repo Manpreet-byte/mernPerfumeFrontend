@@ -66,21 +66,21 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative min-h-[72vh] overflow-hidden bg-ink sm:min-h-[82vh]">
+      <section className="relative min-h-[72vh] overflow-hidden bg-stone-100 sm:min-h-[82vh] dark:bg-ink">
         <img src="https://www.lightxeditor.com/blog/wp-content/uploads/2026/01/image4-1.webp" alt="Premium luxury perfume in elegant setting" className="absolute inset-0 h-full w-full object-cover object-center" loading="eager" decoding="async" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-white/20 dark:from-black/85 dark:via-black/45 dark:to-transparent" />
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative mx-auto grid min-h-[72vh] max-w-7xl gap-10 px-6 py-12 sm:min-h-[82vh] sm:py-0 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
-          <div className="max-w-xl text-white">
-            <p className="eyebrow">The art of presence</p>
+          <div className="max-w-xl text-ink dark:text-white">
+            <p className="eyebrow text-ink/70 dark:text-white/80">The art of presence</p>
             <h1 className="mt-5 max-w-[12ch] font-serif text-4xl leading-[.95] sm:text-5xl md:text-7xl">Leave a beautiful trace.</h1>
-            <p className="mt-6 max-w-md text-sm leading-7 text-stone-200 sm:text-base">Exceptional perfume, selected for the moments that deserve to be remembered.</p>
+            <p className="mt-6 max-w-md text-sm leading-7 text-ink/75 dark:text-stone-200 sm:text-base">Exceptional perfume, selected for the moments that deserve to be remembered.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/products" className="button-gold">Discover the collection <ArrowRight className="ml-2" size={15} /></Link>
-              <Link href="/about" className="button-outline border-white/15 text-white hover:border-gold hover:text-gold">Our house</Link>
+              <Link href="/about" className="button-outline border-black/10 text-ink hover:border-gold hover:text-gold dark:border-white/15 dark:text-white">Our house</Link>
             </div>
             <div className="mt-10 grid max-w-lg gap-3 sm:grid-cols-3">
               {['Extrait quality', 'Luxury gifting', 'Curated drops'].map((item) => (
-                <div key={item} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center text-[10px] uppercase tracking-[.18em] text-stone-100 backdrop-blur sm:text-xs sm:text-left">
+                <div key={item} className="rounded-2xl border border-black/10 bg-white/80 px-4 py-3 text-center text-[10px] uppercase tracking-[.18em] text-ink backdrop-blur sm:text-xs sm:text-left dark:border-white/10 dark:bg-white/5 dark:text-stone-100">
                   {item}
                 </div>
               ))}
@@ -88,17 +88,17 @@ export default function Home() {
           </div>
 
           <div className="grid gap-4">
-            <div className="luxury-panel overflow-hidden rounded-[2rem] bg-white/10 p-5 text-white backdrop-blur-md sm:p-6">
-              <p className="eyebrow text-gold/90">House note</p>
+            <div className="luxury-panel overflow-hidden rounded-[2rem] border border-black/10 bg-white/85 p-5 text-ink backdrop-blur-md sm:p-6 dark:border-white/10 dark:bg-white/10 dark:text-white">
+              <p className="eyebrow text-ink/70 dark:text-gold/90">House note</p>
               <h2 className="mt-3 max-w-md font-serif text-3xl leading-tight sm:text-4xl">A scent wardrobe built for the way you actually live.</h2>
-              <p className="mt-4 text-sm leading-7 text-stone-200">Our collection balances intimacy, projection, and longevity so every bottle feels useful, beautiful, and memorable.</p>
+              <p className="mt-4 text-sm leading-7 text-ink/75 dark:text-stone-200">Our collection balances intimacy, projection, and longevity so every bottle feels useful, beautiful, and memorable.</p>
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-3xl border border-white/10 bg-white/10 p-4">
-                  <p className="text-xs uppercase tracking-[.18em] text-stone-300">New edit</p>
+                <div className="rounded-3xl border border-black/10 bg-white/90 p-4 dark:border-white/10 dark:bg-white/10">
+                  <p className="text-xs uppercase tracking-[.18em] text-ink/60 dark:text-stone-300">New edit</p>
                   <p className="mt-2 font-serif text-2xl">Curated weekly</p>
                 </div>
-                <div className="rounded-3xl border border-white/10 bg-white/10 p-4">
-                  <p className="text-xs uppercase tracking-[.18em] text-stone-300">Concierge</p>
+                <div className="rounded-3xl border border-black/10 bg-white/90 p-4 dark:border-white/10 dark:bg-white/10">
+                  <p className="text-xs uppercase tracking-[.18em] text-ink/60 dark:text-stone-300">Concierge</p>
                   <p className="mt-2 font-serif text-2xl">Guided support</p>
                 </div>
               </div>
@@ -110,9 +110,9 @@ export default function Home() {
                 { value: '24h', label: 'concierge response' },
                 { value: '5★', label: 'curation mindset' },
               ].map((stat) => (
-                <div key={stat.label} className="rounded-3xl border border-white/10 bg-white/5 p-4 text-white backdrop-blur">
+                <div key={stat.label} className="rounded-3xl border border-black/10 bg-white/85 p-4 text-ink backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white">
                   <p className="font-serif text-2xl sm:text-3xl">{stat.value}</p>
-                  <p className="mt-2 text-[10px] uppercase tracking-[.22em] text-stone-300">{stat.label}</p>
+                  <p className="mt-2 text-[10px] uppercase tracking-[.22em] text-ink/60 dark:text-stone-300">{stat.label}</p>
                 </div>
               ))}
             </div>
