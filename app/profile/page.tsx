@@ -119,18 +119,6 @@ export default function ProfilePage() {
     { label: 'Checkout ready', value: cartItems.length > 0 ? 'Yes' : 'No', icon: CreditCard },
   ];
 
-  const profileCards = [
-    { label: 'Name', value: user!.name },
-    { label: 'Email', value: user!.email },
-    { label: 'Role', value: user!.role },
-    { label: 'Auth', value: user!.authProvider === 'google' ? 'Google' : 'Email' },
-    { label: 'Phone', value: user!.phone || 'Not added' },
-    { label: 'Joined', value: user!.createdAt ? new Date(user!.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown' },
-  ];
-
-  const addresses = (user!.addresses || []) as ProfileAddress[];
-  const defaultAddress = addresses.find((address) => address.isDefault) || addresses[0];
-
   if (loading && !user) return <div className="mx-auto max-w-4xl px-6 py-20 text-black dark:text-white"><h1 className="font-serif text-5xl">Your account</h1><p className="mt-5 text-black">Loading profile…</p></div>;
 
   if (!user) {
@@ -172,6 +160,18 @@ export default function ProfilePage() {
       </AuthShell>
     );
   }
+
+  const profileCards = [
+    { label: 'Name', value: user.name },
+    { label: 'Email', value: user.email },
+    { label: 'Role', value: user.role },
+    { label: 'Auth', value: user.authProvider === 'google' ? 'Google' : 'Email' },
+    { label: 'Phone', value: user.phone || 'Not added' },
+    { label: 'Joined', value: user.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Unknown' },
+  ];
+
+  const addresses = (user.addresses || []) as ProfileAddress[];
+  const defaultAddress = addresses.find((address) => address.isDefault) || addresses[0];
 
   const orderColumns = [
     {
