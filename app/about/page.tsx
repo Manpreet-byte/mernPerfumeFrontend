@@ -90,10 +90,10 @@ export default function AboutPage() {
 			</section>
 
 			<section className="mx-auto max-w-7xl px-6 py-10">
-				<div className="grid gap-4 rounded-[2rem] bg-ink p-8 text-white lg:grid-cols-[.9fr_1.1fr] lg:items-center">
+				<div className="grid gap-4 rounded-[2rem] bg-ink p-8 text-white dark:text-white lg:grid-cols-[.9fr_1.1fr] lg:items-center">
 					<div>
 						<p className="eyebrow">Our standard</p>
-						<p className="mt-5 font-serif text-3xl leading-relaxed">We select compositions with depth, distinctiveness, and the rare ability to make a moment feel entirely your own.</p>
+						<p className="mt-5 font-serif text-3xl leading-relaxed dark:text-white">We select compositions with depth, distinctiveness, and the rare ability to make a moment feel entirely your own.</p>
 					</div>
 					<div className="grid gap-3 sm:grid-cols-2">
 						{studioNotes.map((note) => (
@@ -146,13 +146,13 @@ export default function AboutPage() {
 			</div>
 		</section>
 
-		<section className="bg-ink px-6 py-16 text-white">
+		<section className="bg-ink px-6 py-16 text-black dark:text-white">
 			<div className="mx-auto max-w-7xl">
 				<div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
 					<div>
 						<p className="eyebrow">Timeline</p>
 						<h3 className="mt-4 font-serif text-4xl">The house has grown deliberately.</h3>
-						<p className="mt-4 max-w-lg text-sm leading-7 text-stone-300">Each milestone marked a refinement in how we curate, present, and support the collection.</p>
+						<p className="mt-4 max-w-lg text-sm leading-7 text-stone-600 dark:text-stone-300">Each milestone marked a refinement in how we curate, present, and support the collection.</p>
 					</div>
 					<div className="space-y-4">
 						{timeline.map((item) => (
@@ -161,8 +161,8 @@ export default function AboutPage() {
 									<div className="grid h-12 w-12 place-items-center rounded-full bg-gold/15 text-gold"><Clock3 size={18} /></div>
 									<div className="min-w-0 flex-1">
 										<p className="text-xs font-bold uppercase tracking-[.22em] text-gold">{item.year}</p>
-										<h4 className="mt-2 font-serif text-2xl text-white">{item.title}</h4>
-										<p className="mt-2 text-sm leading-7 text-stone-300">{item.copy}</p>
+										<h4 className="mt-2 font-serif text-2xl text-black dark:text-white">{item.title}</h4>
+										<p className="mt-2 text-sm leading-7 text-stone-600 dark:text-stone-300">{item.copy}</p>
 									</div>
 								</div>
 							</div>

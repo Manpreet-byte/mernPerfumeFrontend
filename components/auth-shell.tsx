@@ -16,6 +16,7 @@ type AuthShellProps = {
 	title: string;
 	copy: string;
 	highlights: Highlight[];
+	titleClassName?: string;
 	children: ReactNode;
 };
 
@@ -25,7 +26,7 @@ const fallbackHighlights: Highlight[] = [
 	{ title: 'Premium flow', copy: 'A refined account experience that feels aligned with the storefront.', icon: Sparkles },
 ];
 
-export function AuthShell({ eyebrow, title, copy, highlights, children }: AuthShellProps) {
+export function AuthShell({ eyebrow, title, copy, highlights, titleClassName, children }: AuthShellProps) {
 	const cards = highlights.length ? highlights : fallbackHighlights;
 
 	return (
@@ -35,7 +36,7 @@ export function AuthShell({ eyebrow, title, copy, highlights, children }: AuthSh
 <div className="mx-auto grid max-w-6xl gap-10 lg:min-h-[calc(100vh-8rem)] lg:grid-cols-[.95fr_1fr] lg:items-center">
 			<motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.38, ease: 'easeOut' }} className="max-w-lg text-ink dark:text-white">
 				<p className="eyebrow">Aurelia account</p>
-				<h1 className="mt-5 font-serif text-4xl leading-[.95] sm:text-5xl md:text-7xl">{title}</h1>
+				<h1 className={`mt-5 font-serif text-4xl leading-[.95] sm:text-5xl md:text-7xl ${titleClassName || 'text-ink dark:text-white'}`}>{title}</h1>
 				<p className="mt-6 max-w-lg text-base leading-7 text-ink/80 dark:text-white/80">{copy}</p>
 				<div className="mt-8 grid gap-4 sm:grid-cols-2">
 					<div className="relative overflow-hidden rounded-[2rem] shadow-[0_22px_50px_rgba(20,18,15,.12)]">

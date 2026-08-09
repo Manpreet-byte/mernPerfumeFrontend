@@ -65,7 +65,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-ink via-ink to-black text-white">
+    <div className="min-h-screen bg-gradient-to-b from-ink via-ink to-black text-ink dark:text-white">
       <section className="relative overflow-hidden px-6 py-20 sm:px-8 lg:px-10">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(183,147,78,0.15),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(183,147,78,0.1),transparent_35%)]" />
         <div className="mx-auto max-w-8xl">
@@ -73,8 +73,8 @@ export default function ContactPage() {
             <div className="space-y-8">
               <div>
                 <p className="eyebrow">We are listening</p>
-                <h1 className="mt-5 font-serif text-5xl leading-tight sm:text-6xl md:text-7xl text-white">Let's talk fragrance.</h1>
-                <p className="mt-6 max-w-xl text-base leading-8 text-white">
+                <h1 className="mt-5 font-serif text-5xl leading-tight sm:text-6xl md:text-7xl dark:text-white">Let's talk fragrance.</h1>
+                <p className="mt-6 max-w-xl text-base leading-8 dark:text-white">
                   Whether you need help selecting a scent, have a question about an order, or simply want to share your fragrance story, our concierge team is here to guide you through every moment.
                 </p>
               </div>
@@ -113,17 +113,17 @@ export default function ContactPage() {
                     className="h-80 w-full object-cover sm:h-[420px]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-black dark:text-white">
                     <p className="eyebrow text-gold/90">Signature scent</p>
                     <h3 className="mt-2 font-serif text-2xl">Velvet elegance</h3>
-                    <p className="mt-2 text-sm text-stone-200">A refined bottle inspired by quiet luxury and luminous nights.</p>
+                    <p className="mt-2 text-sm text-stone-700 dark:text-stone-200">A refined bottle inspired by quiet luxury and luminous nights.</p>
                   </div>
                 </div>
                 <div className="grid gap-4">
                   <div className="relative overflow-hidden rounded-[1.75rem] h-44 bg-white/5">
                     <img src="https://hips.hearstapps.com/hmg-prod/images/img-2857-jpg-6920aa2de3c98.jpg?crop=1.00xw:0.939xh;0,0.0612xh" alt="perfume bottle on marble" className="h-full w-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+                    <div className="absolute inset-x-0 bottom-0 p-4 text-black dark:text-white">
                       <p className="text-xs uppercase tracking-[.22em] text-gold">Iconic bottle</p>
                       <p className="mt-1 text-sm">Bright and poised with a glassy shimmer.</p>
                     </div>
@@ -131,7 +131,7 @@ export default function ContactPage() {
                   <div className="relative overflow-hidden rounded-[1.75rem] h-44 bg-white/5">
                     <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=85" alt="perfume bottle with cedar" className="h-full w-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+                    <div className="absolute inset-x-0 bottom-0 p-4 text-black dark:text-white">
                       <p className="text-xs uppercase tracking-[.22em] text-gold">Woodland allure</p>
                       <p className="mt-1 text-sm">Deep cedar and honeyed amber for evening rituals.</p>
                     </div>
@@ -153,28 +153,28 @@ export default function ContactPage() {
                 </span>
                 <div>
                   <p className="eyebrow">Atelier hours</p>
-                  <h3 className="mt-2 font-serif text-2xl">Always available</h3>
+                  <h3 className="mt-2 font-serif text-2xl text-black dark:text-white">Always available</h3>
                 </div>
               </div>
               <div className="mt-6 space-y-3">
                 {businessHours.map((item) => (
                   <div key={item.day} className="flex items-center justify-between border-b border-white/10 pb-3 last:border-0 last:pb-0">
-                    <span className="text-sm text-black dark:text-white/70">{item.day}</span>
+                    <span className="text-sm text-black dark:text-white">{item.day}</span>
                     <span className="text-sm font-semibold text-gold">{item.hours}</span>
                   </div>
                 ))}
               </div>
               <div className="mt-6 rounded-2xl border border-gold/20 bg-gold/10 p-4">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-gold">Quick response</p>
-                <p className="mt-2 text-sm leading-6 text-black dark:text-stone-300">Expect a reply within 2 hours during business hours, or first thing next morning.</p>
+                <p className="mt-2 text-sm leading-6 text-black dark:text-white">Expect a reply within 2 hours during business hours, or first thing next morning.</p>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="luxury-panel space-y-5 rounded-3xl p-8 text-ink dark:text-white">
               <div>
                 <p className="eyebrow">Send us a message</p>
-                <h3 className="mt-3 font-serif text-2xl">Let's start a conversation</h3>
-                <p className="mt-3 text-sm leading-6 text-black dark:text-stone-300">Tell us about your fragrance needs, questions, or feedback. We read and respond to every message.</p>
+                <h3 className="mt-3 font-serif text-2xl text-black dark:text-white">Let's start a conversation</h3>
+                <p className="mt-3 text-sm leading-6 text-black dark:text-white/80">Tell us about your fragrance needs, questions, or feedback. We read and respond to every message.</p>
               </div>
 
               <div className="space-y-4">

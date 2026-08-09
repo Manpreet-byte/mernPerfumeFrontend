@@ -27,7 +27,7 @@ export function Header() {
         <button className="md:hidden" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>
 
         <div className="hidden items-center gap-8 md:flex">
-          <Link href="/" className="font-serif text-2xl tracking-[.25em]">AURELIA</Link>
+          <Link href="/" className="font-serif text-2xl tracking-[.25em] text-ink dark:text-white">AURELIA</Link>
           <nav className="flex items-center gap-8">{links.map(([label, href]) => <Link key={label} href={href} className="text-xs font-bold uppercase tracking-[.14em] transition hover:text-gold">{label}</Link>)}</nav>
         </div>
 
@@ -52,7 +52,7 @@ export function Header() {
       </div>
 
       <div className="mx-auto flex items-center justify-center border-t border-ink/10 bg-white/80 py-4 text-ink dark:border-white/10 dark:bg-black/80 md:hidden">
-        <Link href="/" className="font-serif text-2xl tracking-[.25em]">AURELIA</Link>
+        <Link href="/" className="font-serif text-2xl tracking-[.25em] text-ink dark:text-white">AURELIA</Link>
       </div>
       {open && (
         <nav className="flex flex-col gap-5 border-t border-ink/10 bg-white px-6 py-6 text-ink dark:border-white/10 dark:bg-black dark:text-white md:hidden">

@@ -71,15 +71,15 @@ export default function ProfilePage() {
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <p className="eyebrow">Private account</p>
-            <h1 className="mt-3 font-serif text-5xl text-white">Hello, {user.name}</h1>
-            <p className="mt-4 max-w-xl text-sm leading-7 text-black">Welcome back to your personal fragrance atelier. Manage your profile, revisit saved scents, and keep your orders in a polished, high-contrast space.</p>
+            <h1 className="mt-3 font-serif text-5xl text-black dark:text-white">Hello, {user.name}</h1>
+            <p className="mt-4 max-w-xl text-sm leading-7 text-black dark:text-white">Welcome back to your personal fragrance atelier. Manage your profile, revisit saved scents, and keep your orders in a polished, high-contrast space.</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-5 text-black shadow-[0_24px_60px_rgba(0,0,0,.12)]">
+            <div className="rounded-3xl border border-white/10 bg-white/10 p-5 text-black dark:text-white shadow-[0_24px_60px_rgba(0,0,0,.12)]">
               <p className="text-xs uppercase tracking-[.24em] text-gold">Wishlist</p>
               <p className="mt-3 font-serif text-3xl">3 saved scents</p>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-5 text-black shadow-[0_24px_60px_rgba(0,0,0,.12)]">
+            <div className="rounded-3xl border border-white/10 bg-white/10 p-5 text-black dark:text-white shadow-[0_24px_60px_rgba(0,0,0,.12)]">
               <p className="text-xs uppercase tracking-[.24em] text-gold">Orders</p>
               <p className="mt-3 font-serif text-3xl">Recent activity</p>
             </div>
@@ -92,7 +92,7 @@ export default function ProfilePage() {
           <div className="flex items-center justify-between gap-4">
             <div>
               <h2 className="font-serif text-2xl text-black dark:text-white">Account details</h2>
-              <p className="mt-4 text-sm leading-7 text-black dark:text-stone-300">View and update your profile email, manage your preferences, and keep your account details polished.</p>
+              <p className="mt-4 text-sm leading-7 text-black dark:text-white/80">View and update your profile email, manage your preferences, and keep your account details polished.</p>
             </div>
             <span className="rounded-full bg-gold/10 px-3 py-2 text-[11px] uppercase tracking-[.24em] text-gold">Verified</span>
           </div>
@@ -108,7 +108,7 @@ export default function ProfilePage() {
         <section className="luxury-panel rounded-3xl p-6 bg-white/95 text-black shadow-[0_30px_80px_rgba(20,18,15,.06)] dark:bg-white/5 dark:text-white">
           <div>
             <h2 className="font-serif text-2xl text-black dark:text-white">Order history</h2>
-            <p className="mt-4 text-sm leading-7 text-black">Review the latest orders, reorder favorite fragrances, and keep your delivery details up to date.</p>
+            <p className="mt-4 text-sm leading-7 text-black dark:text-white/80">Review the latest orders, reorder favorite fragrances, and keep your delivery details up to date.</p>
           </div>
           <div className="mt-6 space-y-4">
             <div className="rounded-3xl border border-black/10 bg-black/5 p-4 dark:border-white/10 dark:bg-white/5">
@@ -124,17 +124,17 @@ export default function ProfilePage() {
         <div className="luxury-panel rounded-3xl p-6 bg-white/95 text-black shadow-[0_20px_60px_rgba(20,18,15,.05)] dark:bg-white/5 dark:text-white">
           <p className="text-xs uppercase tracking-[.24em] text-gold">Saved</p>
           <p className="mt-3 font-serif text-3xl">8 items</p>
-          <p className="mt-3 text-sm leading-6 text-black dark:text-stone-300">Fragrances you have saved for later discovery.</p>
+          <p className="mt-3 text-sm leading-6 text-black dark:text-white/80">Fragrances you have saved for later discovery.</p>
         </div>
         <div className="luxury-panel rounded-3xl p-6 bg-white/95 text-black shadow-[0_20px_60px_rgba(20,18,15,.05)] dark:bg-white/5 dark:text-white">
           <p className="text-xs uppercase tracking-[.24em] text-gold">Preferences</p>
           <p className="mt-3 font-serif text-3xl">Woody & amber</p>
-          <p className="mt-3 text-sm leading-6 text-black dark:text-stone-300">Your current scent profile for personalized recommendations.</p>
+          <p className="mt-3 text-sm leading-6 text-black dark:text-white/80">Your current scent profile for personalized recommendations.</p>
         </div>
         <div className="luxury-panel rounded-3xl p-6 bg-white/95 text-black shadow-[0_20px_60px_rgba(20,18,15,.05)] dark:bg-white/5 dark:text-white">
           <p className="text-xs uppercase tracking-[.24em] text-gold">Support</p>
           <p className="mt-3 font-serif text-3xl">Concierge ready</p>
-          <p className="mt-3 text-sm leading-6 text-black dark:text-stone-300">Message our boutique team anytime for tailored fragrance advice.</p>
+          <p className="mt-3 text-sm leading-6 text-black dark:text-white/80">Message our boutique team anytime for tailored fragrance advice.</p>
         </div>
       </div>
 
