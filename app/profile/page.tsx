@@ -1,12 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, Sparkles, WandSparkles, ShieldCheck, Package, Truck, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import { ArrowRight, Sparkles, WandSparkles, ShieldCheck, Package, Truck, CheckCircle, Clock, AlertCircle, ShoppingBag, CreditCard, ClipboardList, ShoppingCart } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchCurrentUser, logout } from '@/store/slices/authSlice';
 import { AuthShell } from '@/components/auth-shell';
+import { PageHeading } from '@/app/admin/_components/page-heading';
+import { DataTable } from '@/app/admin/_components/data-table';
 import { api } from '@/services/api';
 
 type OrderProduct = {
@@ -24,6 +26,16 @@ type Order = {
   createdAt: string;
 };
 
+type OrderRow = {
+  id: string;
+  orderNumber: string;
+  itemCount: string;
+  date: string;
+  status: Order['orderStatus'];
+  payment: Order['paymentStatus'];
+  total: string;
+};
+
 const orderStatusConfig = {
   pending: { label: 'Pending', icon: Clock, className: 'border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-500/30 dark:bg-yellow-500/10 dark:text-yellow-400' },
   processing: { label: 'Processing', icon: Package, className: 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-400' },
@@ -32,10 +44,17 @@ const orderStatusConfig = {
   cancelled: { label: 'Cancelled', icon: AlertCircle, className: 'border-red-200 bg-red-50 text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400' },
 };
 
+const paymentStatusClass = {
+  pending: 'border-yellow-200 bg-yellow-50 text-yellow-700 dark:border-yellow-500/30 dark:bg-yellow-500/10 dark:text-yellow-400',
+  paid: 'border-green-200 bg-green-50 text-green-700 dark:border-green-500/30 dark:bg-green-500/10 dark:text-green-400',
+  failed: 'border-red-200 bg-red-50 text-red-700 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400',
+};
+
 export default function ProfilePage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user, loading } = useAppSelector((state) => state.auth);
+  const cartItems = useAppSelector((state) => state.cart.items);
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [ordersError, setOrdersError] = useState('');
@@ -65,6 +84,27 @@ export default function ProfilePage() {
       fetchOrders();
     }
   }, [dispatch, user]);
+
+  const recentOrderRows = useMemo<OrderRow[]>(
+    () =>
+      orders.slice(0, 5).map((order) => ({
+        id: order._id,
+        orderNumber: order._id.slice(-8).toUpperCase(),
+        itemCount: `${order.products.reduce((count, item) => count + item.quantity, 0)} item${order.products.reduce((count, item) => count + item.quantity, 0) === 1 ? '' : 's'}`,
+        date: new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        status: order.orderStatus,
+        payment: order.paymentStatus,
+        total: `₹${order.finalAmount.toFixed(2)}`,
+      })),
+    [orders],
+  );
+
+  const summaryCards = [
+    { label: 'Saved scents', value: '3', icon: Sparkles },
+    { label: 'Orders', value: ordersLoading ? '...' : `${orders.length}`, icon: ClipboardList },
+    { label: 'Cart items', value: `${cartItems.length}`, icon: ShoppingCart },
+    { label: 'Checkout ready', value: cartItems.length > 0 ? 'Yes' : 'No', icon: CreditCard },
+  ];
 
   if (loading && !user) return <div className="mx-auto max-w-4xl px-6 py-20 text-black dark:text-white"><h1 className="font-serif text-5xl">Your account</h1><p className="mt-5 text-black">Loading profile…</p></div>;
 
@@ -108,133 +148,187 @@ export default function ProfilePage() {
     );
   }
 
+  const orderColumns = [
+    {
+      label: 'Order',
+      render: (row: OrderRow) => <span className="font-mono text-xs font-semibold tracking-[.18em] text-ink dark:text-white">#{row.orderNumber}</span>,
+    },
+    {
+      label: 'Items',
+      render: (row: OrderRow) => <span className="text-sm text-ink/70 dark:text-white/70">{row.itemCount}</span>,
+    },
+    {
+      label: 'Date',
+      render: (row: OrderRow) => <span className="text-sm text-ink/70 dark:text-white/70">{row.date}</span>,
+    },
+    {
+      label: 'Status',
+      render: (row: OrderRow) => {
+        const statusInfo = orderStatusConfig[row.status];
+        const StatusIcon = statusInfo.icon;
+        return (
+          <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold ${statusInfo.className}`}>
+            <StatusIcon size={14} />
+            {statusInfo.label}
+          </span>
+        );
+      },
+    },
+    {
+      label: 'Payment',
+      render: (row: OrderRow) => (
+        <span className={`inline-flex rounded-full border px-3 py-2 text-xs font-semibold ${paymentStatusClass[row.payment]}`}>
+          {row.payment.charAt(0).toUpperCase() + row.payment.slice(1)}
+        </span>
+      ),
+    },
+    {
+      label: 'Total',
+      render: (row: OrderRow) => <span className="font-semibold text-ink dark:text-white">{row.total}</span>,
+    },
+  ];
+
   return (
-    <div className="mx-auto max-w-5xl px-6 py-14 text-black dark:text-white">
-      <div className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,.14),transparent_20%),radial-gradient(circle_at_bottom_right,rgba(183,147,78,.16),transparent_30%)] p-8 shadow-[0_40px_110px_rgba(0,0,0,.22)]">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-2xl">
-            <p className="eyebrow">Private account</p>
-            <h1 className="mt-3 font-serif text-5xl text-black dark:text-white">Hello, {user.name}</h1>
-            <p className="mt-4 max-w-xl text-sm leading-7 text-black dark:text-white">Welcome back to your personal fragrance atelier. Manage your profile, revisit saved scents, and keep your orders in a polished, high-contrast space.</p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-5 text-black dark:text-white shadow-[0_24px_60px_rgba(0,0,0,.12)]">
-              <p className="text-xs uppercase tracking-[.24em] text-gold">Wishlist</p>
-              <p className="mt-3 font-serif text-3xl">3 saved scents</p>
+    <div className="min-h-screen bg-[#f7f4ed] text-ink dark:bg-[#171411] dark:text-stone-100">
+      <div className="mx-auto max-w-7xl px-6 py-12 sm:px-8">
+        <PageHeading
+          eyebrow="Customer profile"
+          title={`Welcome back, ${user.name}`}
+          description="Your profile now follows the same dashboard language as the admin area, with account details, order tracking, and checkout shortcuts in one place."
+          action={
+            <div className="flex flex-wrap gap-3">
+              <Link href="/orders" className="button-outline gap-2 border-ink/20 text-ink hover:border-gold hover:text-gold dark:border-white/15 dark:text-white">
+                <ClipboardList size={15} />
+                View orders
+              </Link>
+              <Link href={cartItems.length > 0 ? '/checkout' : '/products'} className="button-gold gap-2">
+                <ShoppingBag size={15} />
+                {cartItems.length > 0 ? 'Checkout' : 'Shop now'}
+              </Link>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-white/10 p-5 text-black dark:text-white shadow-[0_24px_60px_rgba(0,0,0,.12)]">
-              <p className="text-xs uppercase tracking-[.24em] text-gold">Orders</p>
-              <p className="mt-3 font-serif text-3xl">{ordersLoading ? '...' : orders.length > 0 ? `${orders.length} ${orders.length === 1 ? 'order' : 'orders'}` : 'No orders yet'}</p>
-            </div>
-          </div>
+          }
+        />
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {summaryCards.map((card) => {
+            const Icon = card.icon;
+            return (
+              <section key={card.label} className="border border-ink/10 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-white/[.03]">
+                <div className="flex items-start justify-between">
+                  <span className="grid h-10 w-10 place-items-center bg-gold/10 text-gold"><Icon size={20} /></span>
+                </div>
+                <p className="mt-6 text-xs uppercase tracking-widest text-ink/50 dark:text-white/50">{card.label}</p>
+                <p className="mt-2 font-serif text-3xl text-ink dark:text-white">{card.value}</p>
+              </section>
+            );
+          })}
         </div>
+
+        <div className="mt-8 grid gap-6 xl:grid-cols-[1fr_.92fr]">
+          <section className="border border-ink/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/[.03]">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <p className="eyebrow">Account details</p>
+                <h2 className="mt-2 font-serif text-3xl text-ink dark:text-white">Profile and support</h2>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-ink/60 dark:text-white/60">This area mirrors the admin dashboard feel so every customer sees the same polished account experience, with clear status, strong contrast, and direct actions.</p>
+              </div>
+              <span className="rounded-full border border-gold/30 bg-gold/10 px-3 py-2 text-[11px] font-bold uppercase tracking-[.24em] text-gold">Verified</span>
+            </div>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <div className="border border-ink/10 bg-stone-50 p-4 dark:border-white/10 dark:bg-white/5">
+                <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">Email</p>
+                <p className="mt-2 font-medium text-ink dark:text-white">{user.email}</p>
+              </div>
+              <div className="border border-ink/10 bg-stone-50 p-4 dark:border-white/10 dark:bg-white/5">
+                <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">Orders</p>
+                <p className="mt-2 font-medium text-ink dark:text-white">{ordersLoading ? 'Loading…' : orders.length > 0 ? `${orders.length} order${orders.length === 1 ? '' : 's'}` : 'No orders yet'}</p>
+              </div>
+              <div className="border border-ink/10 bg-stone-50 p-4 dark:border-white/10 dark:bg-white/5">
+                <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">Checkout</p>
+                <p className="mt-2 font-medium text-ink dark:text-white">{cartItems.length > 0 ? 'Cart ready' : 'Cart empty'}</p>
+              </div>
+              <div className="border border-ink/10 bg-stone-50 p-4 dark:border-white/10 dark:bg-white/5">
+                <p className="text-xs uppercase tracking-[.22em] text-ink/60 dark:text-white/60">Support</p>
+                <p className="mt-2 font-medium text-ink dark:text-white">Concierge ready</p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <button className="button-outline border-ink/20 text-ink hover:border-gold hover:text-gold dark:border-white/15 dark:text-white">Edit profile</button>
+              <Link href="/products" className="button-outline border-ink/20 text-ink hover:border-gold hover:text-gold dark:border-white/15 dark:text-white">Browse products</Link>
+            </div>
+          </section>
+
+          <section className="border border-ink/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-white/[.03]">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="eyebrow">Shopping flow</p>
+                <h2 className="mt-2 font-serif text-3xl text-ink dark:text-white">Checkout and orders</h2>
+                <p className="mt-3 text-sm leading-7 text-ink/60 dark:text-white/60">Use the same path every customer sees: add products, check out, then track the order here or in the dedicated orders view.</p>
+              </div>
+              <span className="grid h-11 w-11 place-items-center rounded-full bg-gold/10 text-gold"><CreditCard size={18} /></span>
+            </div>
+
+            <div className="mt-6 space-y-4">
+              {ordersError && (
+                <div className="rounded-2xl border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-600 dark:text-rose-300">
+                  {ordersError}
+                </div>
+              )}
+
+              {ordersLoading ? (
+                <div className="rounded-2xl border border-ink/10 bg-stone-50 p-4 text-sm text-ink/60 dark:border-white/10 dark:bg-white/5 dark:text-white/60">Loading your recent orders…</div>
+              ) : recentOrderRows.length > 0 ? (
+                <DataTable
+                  columns={orderColumns}
+                  rows={recentOrderRows}
+                  pageSize={5}
+                  renderActions={(row) => (
+                    <Link href="/orders" className="text-sm font-semibold text-gold hover:underline">
+                      Open
+                    </Link>
+                  )}
+                />
+              ) : (
+                <div className="rounded-2xl border border-ink/10 bg-stone-50 p-5 text-sm text-ink/60 dark:border-white/10 dark:bg-white/5 dark:text-white/60">
+                  No orders yet. Once you place your first order, it will appear here with the same tracking view used across the app.
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/orders" className="button-outline border-ink/20 text-ink hover:border-gold hover:text-gold dark:border-white/15 dark:text-white">All orders</Link>
+              <Link href={cartItems.length > 0 ? '/checkout' : '/products'} className="button-gold gap-2">
+                <ShoppingBag size={15} />
+                {cartItems.length > 0 ? 'Go to checkout' : 'Start shopping'}
+              </Link>
+            </div>
+          </section>
+        </div>
+
+        <div className="mt-8 grid gap-5 sm:grid-cols-3">
+          <Link href="/orders" className="border border-ink/10 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-gold/30 dark:border-white/10 dark:bg-white/[.03]">
+            <p className="text-xs uppercase tracking-[.24em] text-gold">Orders</p>
+            <p className="mt-3 font-serif text-3xl text-ink dark:text-white">Track</p>
+            <p className="mt-3 text-sm leading-6 text-ink/70 dark:text-white/70">Open your full order history and delivery updates.</p>
+          </Link>
+          <Link href={cartItems.length > 0 ? '/checkout' : '/products'} className="border border-ink/10 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-gold/30 dark:border-white/10 dark:bg-white/[.03]">
+            <p className="text-xs uppercase tracking-[.24em] text-gold">Checkout</p>
+            <p className="mt-3 font-serif text-3xl text-ink dark:text-white">Ready</p>
+            <p className="mt-3 text-sm leading-6 text-ink/70 dark:text-white/70">Jump straight back into payment when your cart is ready.</p>
+          </Link>
+          <Link href="/products" className="border border-ink/10 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:border-gold/30 dark:border-white/10 dark:bg-white/[.03]">
+            <p className="text-xs uppercase tracking-[.24em] text-gold">Shopping</p>
+            <p className="mt-3 font-serif text-3xl text-ink dark:text-white">Browse</p>
+            <p className="mt-3 text-sm leading-6 text-ink/70 dark:text-white/70">Continue discovery with the same polished storefront flow.</p>
+          </Link>
+        </div>
+
+        <button className="mt-8 text-xs font-bold uppercase tracking-widest text-gold" onClick={() => { dispatch(logout()); router.push('/profile'); }}>
+          Log out
+        </button>
       </div>
-
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
-        <section className="luxury-panel rounded-3xl p-6 bg-white/95 text-black shadow-[0_30px_80px_rgba(20,18,15,.06)] dark:bg-white/5 dark:text-white">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <h2 className="font-serif text-2xl text-black dark:text-white">Account details</h2>
-              <p className="mt-4 text-sm leading-7 text-black dark:text-white/80">View and update your profile email, manage your preferences, and keep your account details polished.</p>
-            </div>
-            <span className="rounded-full bg-gold/10 px-3 py-2 text-[11px] uppercase tracking-[.24em] text-gold">Verified</span>
-          </div>
-          <div className="mt-6 space-y-4">
-            <div className="rounded-3xl border border-black/10 bg-black/5 p-4 dark:border-white/10 dark:bg-white/5">
-              <p className="text-xs uppercase tracking-[.22em] text-black/70 dark:text-stone-400">Email</p>
-              <p className="mt-2 font-medium text-black dark:text-white">{user.email}</p>
-            </div>
-            <button className="button-outline mt-2 text-black border-black/20 hover:border-gold hover:text-gold">Edit profile</button>
-          </div>
-        </section>
-
-        <section className="luxury-panel rounded-3xl p-6 bg-white/95 text-black shadow-[0_30px_80px_rgba(20,18,15,.06)] dark:bg-white/5 dark:text-white">
-          <div>
-            <h2 className="font-serif text-2xl text-black dark:text-white">Order history</h2>
-            <p className="mt-4 text-sm leading-7 text-black dark:text-white/80">Review the latest orders, reorder favorite fragrances, and keep your delivery details up to date.</p>
-          </div>
-          <div className="mt-6 space-y-4">
-            <div className="rounded-3xl border border-black/10 bg-black/5 p-4 dark:border-white/10 dark:bg-white/5">
-              <p className="text-xs uppercase tracking-[.22em] text-black/70 dark:text-stone-400">Status</p>
-              <p className="mt-2 font-medium text-black dark:text-white">
-                {ordersLoading ? 'Loading...' : ordersError ? 'Unable to load orders' : orders.length > 0 ? `${orders.length} ${orders.length === 1 ? 'order' : 'orders'} in your account` : 'No orders yet'}
-              </p>
-            </div>
-
-            {ordersError && (
-              <div className="rounded-3xl border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-600 dark:text-rose-300">
-                {ordersError}
-              </div>
-            )}
-
-            {ordersLoading ? (
-              <div className="rounded-3xl border border-black/10 bg-black/5 p-4 text-sm text-black/70 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
-                Loading your recent orders…
-              </div>
-            ) : orders.length > 0 ? (
-              <div className="space-y-3">
-                {orders.slice(0, 3).map((order) => {
-                  const statusInfo = orderStatusConfig[order.orderStatus];
-                  const StatusIcon = statusInfo.icon;
-                  const orderDate = new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-                  const itemCount = order.products.reduce((count, item) => count + item.quantity, 0);
-
-                  return (
-                    <div key={order._id} className="rounded-3xl border border-black/10 bg-black/5 p-4 dark:border-white/10 dark:bg-white/5">
-                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                        <div>
-                          <p className="text-xs uppercase tracking-[.22em] text-black/60 dark:text-stone-400">Order</p>
-                          <p className="mt-1 font-semibold text-black dark:text-white">{order.products[0]?.productId.name || 'Fragrance order'}</p>
-                          <p className="mt-1 text-sm text-black/70 dark:text-white/70">{itemCount} item{itemCount === 1 ? '' : 's'} · {orderDate}</p>
-                        </div>
-                        <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold ${statusInfo.className}`}>
-                          <StatusIcon size={14} />
-                          {statusInfo.label}
-                        </span>
-                      </div>
-                      <div className="mt-4 flex items-center justify-between border-t border-black/10 pt-4 text-sm dark:border-white/10">
-                        <span className="text-black/60 dark:text-white/60">Total</span>
-                        <span className="font-semibold text-black dark:text-white">₹{order.finalAmount.toFixed(2)}</span>
-                      </div>
-                    </div>
-                  );
-                })}
-                <Link href="/orders" className="button-outline mt-2 text-black border-black/20 hover:border-gold hover:text-gold">View all orders</Link>
-              </div>
-            ) : (
-              <div className="rounded-3xl border border-black/10 bg-black/5 p-4 text-sm text-black/70 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
-                No orders yet. Place a fragrance order to see it appear here.
-              </div>
-            )}
-
-            {!ordersLoading && !ordersError && orders.length === 0 && (
-              <Link href="/products" className="button-outline mt-2 text-black border-black/20 hover:border-gold hover:text-gold">Start shopping</Link>
-            )}
-          </div>
-        </section>
-      </div>
-
-      <div className="mt-8 grid gap-5 sm:grid-cols-3">
-        <div className="luxury-panel rounded-3xl p-6 bg-white/95 text-black shadow-[0_20px_60px_rgba(20,18,15,.05)] dark:bg-white/5 dark:text-white">
-          <p className="text-xs uppercase tracking-[.24em] text-gold">Saved</p>
-          <p className="mt-3 font-serif text-3xl">8 items</p>
-          <p className="mt-3 text-sm leading-6 text-black dark:text-white/80">Fragrances you have saved for later discovery.</p>
-        </div>
-        <div className="luxury-panel rounded-3xl p-6 bg-white/95 text-black shadow-[0_20px_60px_rgba(20,18,15,.05)] dark:bg-white/5 dark:text-white">
-          <p className="text-xs uppercase tracking-[.24em] text-gold">Preferences</p>
-          <p className="mt-3 font-serif text-3xl">Woody & amber</p>
-          <p className="mt-3 text-sm leading-6 text-black dark:text-white/80">Your current scent profile for personalized recommendations.</p>
-        </div>
-        <div className="luxury-panel rounded-3xl p-6 bg-white/95 text-black shadow-[0_20px_60px_rgba(20,18,15,.05)] dark:bg-white/5 dark:text-white">
-          <p className="text-xs uppercase tracking-[.24em] text-gold">Support</p>
-          <p className="mt-3 font-serif text-3xl">Concierge ready</p>
-          <p className="mt-3 text-sm leading-6 text-black dark:text-white/80">Message our boutique team anytime for tailored fragrance advice.</p>
-        </div>
-      </div>
-
-      <button className="mt-8 text-xs font-bold uppercase tracking-widest text-gold" onClick={() => { dispatch(logout()); router.push('/profile'); }}>
-        Log out
-      </button>
     </div>
   );
 }
