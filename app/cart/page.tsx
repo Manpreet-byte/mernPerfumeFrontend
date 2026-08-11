@@ -39,8 +39,8 @@ export default function CartPage() {
             {!items.length ? (
               <div className="luxury-panel grid h-full place-items-center rounded-3xl p-8 text-center">
                 <div>
-                  <p className="text-sm text-stone-300">Your bag is waiting for a beautiful scent.</p>
-                  <Link className="button-gold mt-6" href="/products">Browse fragrances</Link>
+                  <p className="text-sm text-black dark:text-stone-300">Your bag is waiting for a beautiful scent.</p>
+                  <Link className="button-gold mt-6 !text-black" href="/products">Browse fragrances</Link>
                 </div>
               </div>
             ) : (

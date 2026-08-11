@@ -38,7 +38,7 @@ const parseParams = (params: URLSearchParams) => ({
 });
 
 function ProductSkeleton() {
-  return <div className="animate-pulse"><div className="aspect-[.78] rounded-2xl bg-white/10" /><div className="mt-4 h-3 w-2/5 rounded bg-white/10" /><div className="mt-3 h-4 w-4/5 rounded bg-white/10" /><div className="mt-4 h-3 w-1/2 rounded bg-white/10" /></div>;
+  return <div className="animate-pulse"><div className="aspect-[.78] rounded-2xl bg-black/5 dark:bg-white/10" /><div className="mt-4 h-3 w-2/5 rounded bg-black/5 dark:bg-white/10" /><div className="mt-3 h-4 w-4/5 rounded bg-black/5 dark:bg-white/10" /><div className="mt-4 h-3 w-1/2 rounded bg-black/5 dark:bg-white/10" /></div>;
 }
 
 export default function ProductsPage() {
@@ -173,7 +173,7 @@ export default function ProductsPage() {
         <div className="mt-4 space-y-3">
           <input type="range" min={PRICE_MIN} max={PRICE_MAX} value={minPrice} onChange={(event) => setMinPrice(Math.min(Number(event.target.value), maxPrice - 50))} className="w-full accent-gold" />
           <input type="range" min={PRICE_MIN} max={PRICE_MAX} value={maxPrice} onChange={(event) => setMaxPrice(Math.max(Number(event.target.value), minPrice + 50))} className="w-full accent-gold" />
-          <p className="text-sm text-stone-300">${minPrice} - ${maxPrice}</p>
+          <p className="text-sm text-stone-600 dark:text-stone-300">${minPrice} - ${maxPrice}</p>
         </div>
       </div>
       <div>
@@ -189,7 +189,7 @@ export default function ProductsPage() {
         <h3 className="luxury-label">Fragrance notes</h3>
         <div className="mt-3 flex flex-wrap gap-2">
           {allNotes.slice(0, 16).map((note) => (
-            <button key={note} onClick={() => toggleNote(note)} className={`rounded-full border px-3 py-1 text-xs ${notes.includes(note) ? 'border-gold bg-gold/20 text-gold' : 'border-white/15 text-stone-300'}`}>
+            <button key={note} onClick={() => toggleNote(note)} className={`rounded-full border px-3 py-1 text-xs transition-colors ${notes.includes(note) ? 'border-gold bg-gold/10 text-gold dark:bg-gold/20' : 'border-black/10 text-stone-600 hover:border-black/20 dark:border-white/15 dark:text-stone-300 dark:hover:border-white/30'}`}>
               {note}
             </button>
           ))}
@@ -210,8 +210,8 @@ export default function ProductsPage() {
       </div>
 
       <div className="relative mt-8">
-        <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-3">
-          <Search size={16} className="text-stone-300" />
+        <div className="flex items-center gap-2 rounded-full border border-black/10 bg-black/5 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+          <Search size={16} className="text-stone-500 dark:text-stone-300" />
           <input
             value={searchInput}
             onFocus={() => setSuggestionsOpen(true)}
@@ -220,10 +220,10 @@ export default function ProductsPage() {
             className="w-full bg-transparent text-sm outline-none"
             placeholder="Search by perfume name, brand, or notes"
           />
-          {searchInput && <button onClick={() => setSearchInput('')} className="text-stone-400"><X size={15} /></button>}
+          {searchInput && <button onClick={() => setSearchInput('')} className="text-stone-500 dark:text-stone-400"><X size={15} /></button>}
         </div>
         {suggestionsOpen && suggestions.length > 0 && (
-          <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0f0d0b] shadow-luxe">
+          <div className="absolute z-20 mt-2 w-full overflow-hidden rounded-2xl border border-black/10 bg-white shadow-luxe dark:border-white/10 dark:bg-[#0f0d0b]">
             {suggestions.map((suggestion) => (
               <button
                 key={suggestion}
@@ -231,7 +231,7 @@ export default function ProductsPage() {
                   setSearchInput(suggestion);
                   setSuggestionsOpen(false);
                 }}
-                className="block w-full border-b border-white/5 px-4 py-3 text-left text-sm text-stone-200 last:border-0 hover:bg-white/5"
+                className="block w-full border-b border-black/5 px-4 py-3 text-left text-sm text-stone-700 last:border-0 hover:bg-black/5 dark:border-white/5 dark:text-stone-200 dark:hover:bg-white/5"
               >
                 {suggestion}
               </button>
@@ -245,8 +245,8 @@ export default function ProductsPage() {
 
         <section>
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-stone-300">{loading ? 'Discovering scents…' : `${totalProducts} fragrances found`}</p>
-            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2">
+            <p className="text-sm text-stone-600 dark:text-stone-300">{loading ? 'Discovering scents…' : `${totalProducts} fragrances found`}</p>
+            <div className="flex items-center gap-2 rounded-full border border-black/10 bg-black/5 px-4 py-2 dark:border-white/10 dark:bg-white/5">
               <SlidersHorizontal size={15} />
               <select className="luxury-select bg-transparent text-sm outline-none" value={sort} onChange={(event) => setSort(event.target.value as ProductQuery['sort'])}>
                 {SORT_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
@@ -261,7 +261,7 @@ export default function ProductsPage() {
           ) : products.length === 0 ? (
             <div className="luxury-panel rounded-3xl p-10 text-center">
               <h2 className="font-serif text-3xl">No fragrances found</h2>
-              <p className="mt-3 text-stone-300">Try adjusting your filters or clearing all options.</p>
+              <p className="mt-3 text-stone-600 dark:text-stone-300">Try adjusting your filters or clearing all options.</p>
               <button onClick={clearAllFilters} className="button-gold mt-6">Clear all filters</button>
             </div>
           ) : (
@@ -271,7 +271,7 @@ export default function ProductsPage() {
               </div>
               <div className="mt-10 flex items-center justify-center gap-3">
                 <button onClick={() => setPage((prev) => Math.max(prev - 1, 1))} disabled={!hasPreviousPage} className="button-outline disabled:opacity-40">Previous</button>
-                <span className="text-sm text-stone-300">Page {currentPage} of {totalPages}</span>
+                <span className="text-sm text-stone-600 dark:text-stone-300">Page {currentPage} of {totalPages}</span>
                 <button onClick={() => setPage((prev) => prev + 1)} disabled={!hasNextPage} className="button-outline disabled:opacity-40">Next</button>
               </div>
             </>

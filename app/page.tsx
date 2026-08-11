@@ -15,7 +15,7 @@ const categories = [
   { name: 'For Her', gender: 'women', image: 'https://www.lightxeditor.com/blog/wp-content/uploads/2026/01/image21.webp' },
   { name: 'For Him', gender: 'men', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=85' },
   { name: 'Unisex', gender: 'unisex', image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=85' },
-  { name: 'Haute Parfumerie', category: 'luxury', image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=85' },
+  { name: 'Haute Parfumerie', category: 'luxury', image: 'https://majesticperfume.in/cdn/shop/files/Untitled_design_12_1.png?v=1785498833&width=750' },
 ];
 
 const houseValues = [
@@ -66,57 +66,66 @@ export default function Home() {
 
   return (
     <>
-      <section className="relative min-h-[72vh] overflow-hidden bg-stone-100 sm:min-h-[82vh] dark:bg-ink">
-        <img src="https://www.lightxeditor.com/blog/wp-content/uploads/2026/01/image4-1.webp" alt="Premium luxury perfume in elegant setting" className="absolute inset-0 h-full w-full object-cover object-center" loading="eager" decoding="async" />
-        <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-white/20 dark:from-black/85 dark:via-black/45 dark:to-transparent" />
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="relative mx-auto grid min-h-[72vh] max-w-7xl gap-10 px-6 py-12 sm:min-h-[82vh] sm:py-0 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
+      <section className="relative min-h-[72vh] overflow-hidden bg-stone-50 sm:min-h-[82vh] dark:bg-[#080706]">
+        <img src="https://w0.peakpx.com/wallpaper/597/175/HD-wallpaper-perfume-bottle-and-roses-lifestyle-roses-fragrant-aromatic.jpg" alt="Perfume background" className="absolute inset-0 h-full w-full object-cover object-center" />
+        <div className="absolute inset-0 bg-white/70 dark:bg-black/80" />
+        {/* Animated background glows */}
+        <div className="absolute -left-[10%] top-[20%] h-[40vw] w-[40vw] rounded-full bg-gold/10 blur-[120px] dark:bg-gold/5" />
+        <div className="absolute right-[5%] top-[10%] h-[30vw] w-[30vw] rounded-full bg-orange-900/5 blur-[100px] dark:bg-orange-900/10" />
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(183,147,78,0.15),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(183,147,78,0.1),transparent_35%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(183,147,78,0.12),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.03),transparent_35%)]" />
+        
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }} className="relative mx-auto grid min-h-[72vh] max-w-7xl gap-12 px-6 py-16 sm:min-h-[82vh] sm:py-0 lg:grid-cols-[1fr_1fr] lg:items-center xl:gap-20">
           <div className="max-w-xl text-ink dark:text-white">
-            <p className="eyebrow text-ink/70 dark:text-white/80">The art of presence</p>
-            <h1 className="mt-5 max-w-[12ch] font-serif text-4xl leading-[.95] sm:text-5xl md:text-7xl">Leave a beautiful trace.</h1>
-            <p className="mt-6 max-w-md text-sm leading-7 text-ink/75 dark:text-stone-200 sm:text-base">Exceptional perfume, selected for the moments that deserve to be remembered.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/products" className="button-gold">Discover the collection <ArrowRight className="ml-2" size={15} /></Link>
-              <Link href="/about" className="button-outline border-black/10 text-ink hover:border-gold hover:text-gold dark:border-white/15 dark:text-white">Our house</Link>
+            <p className="eyebrow flex items-center gap-3 text-ink/70 dark:text-white/80">
+              <span className="h-px w-8 bg-gold"></span>
+              The art of presence
+            </p>
+            <h1 className="mt-6 max-w-[12ch] font-serif text-5xl leading-[1.05] tracking-tight sm:text-6xl md:text-[5.5rem]">Leave a beautiful trace.</h1>
+            <p className="mt-8 max-w-md text-base leading-8 text-ink/70 dark:text-stone-300 sm:text-lg">Exceptional perfume, meticulously selected for the moments that deserve to be remembered.</p>
+            
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <Link href="/products" className="button-gold group shadow-lg shadow-gold/20">
+                Discover the collection 
+                <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" size={16} />
+              </Link>
+              <Link href="/about" className="button-outline border-black/10 bg-transparent text-ink hover:bg-black/5 dark:border-white/15 dark:text-white dark:hover:bg-white/5">
+                Our house
+              </Link>
             </div>
-            <div className="mt-10 grid max-w-lg gap-3 sm:grid-cols-3">
+            
+            <div className="mt-14 flex flex-wrap gap-4">
               {['Extrait quality', 'Luxury gifting', 'Curated drops'].map((item) => (
-                <div key={item} className="rounded-2xl border border-black/10 bg-white/80 px-4 py-3 text-center text-[10px] uppercase tracking-[.18em] text-ink backdrop-blur sm:text-xs sm:text-left dark:border-white/10 dark:bg-white/5 dark:text-stone-100">
+                <div key={item} className="flex items-center gap-2 rounded-full border border-black/5 bg-white/50 px-4 py-2 text-[10px] font-semibold uppercase tracking-[.2em] text-ink/80 backdrop-blur-md dark:border-white/10 dark:bg-white/5 dark:text-stone-200">
+                  <div className="h-1.5 w-1.5 rounded-full bg-gold"></div>
                   {item}
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="grid gap-4">
-            <div className="luxury-panel overflow-hidden rounded-[2rem] border border-black/10 bg-white/85 p-5 text-ink backdrop-blur-md sm:p-6 dark:border-white/10 dark:bg-white/10 dark:text-white">
-              <p className="eyebrow text-ink/70 dark:text-gold/90">House note</p>
-              <h2 className="mt-3 max-w-md font-serif text-3xl leading-tight sm:text-4xl">A scent wardrobe built for the way you actually live.</h2>
-              <p className="mt-4 text-sm leading-7 text-ink/75 dark:text-stone-200">Our collection balances intimacy, projection, and longevity so every bottle feels useful, beautiful, and memorable.</p>
-              <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-3xl border border-black/10 bg-white/90 p-4 dark:border-white/10 dark:bg-white/10">
-                  <p className="text-xs uppercase tracking-[.18em] text-ink/60 dark:text-stone-300">New edit</p>
-                  <p className="mt-2 font-serif text-2xl">Curated weekly</p>
-                </div>
-                <div className="rounded-3xl border border-black/10 bg-white/90 p-4 dark:border-white/10 dark:bg-white/10">
-                  <p className="text-xs uppercase tracking-[.18em] text-ink/60 dark:text-stone-300">Concierge</p>
-                  <p className="mt-2 font-serif text-2xl">Guided support</p>
-                </div>
-              </div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:grid-rows-2 sm:h-[500px]"
+          >
+            <div className="group relative col-span-2 row-span-2 overflow-hidden rounded-[2rem] border border-black/5 bg-white/5 shadow-2xl sm:col-span-1 sm:rounded-[2.5rem] dark:border-white/10">
+              <img src="https://beboldperfumes.com/cdn/shop/articles/khadlaj_perfumes.png?v=1745924262" alt="Premium luxury fragrance collection" className="h-64 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 sm:h-full" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60" />
             </div>
-
-            <div className="grid gap-4 sm:grid-cols-3">
-              {[
-                { value: '42+', label: 'fragrance stories' },
-                { value: '24h', label: 'concierge response' },
-                { value: '5★', label: 'curation mindset' },
-              ].map((stat) => (
-                <div key={stat.label} className="rounded-3xl border border-black/10 bg-white/85 p-4 text-ink backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-white">
-                  <p className="font-serif text-2xl sm:text-3xl">{stat.value}</p>
-                  <p className="mt-2 text-[10px] uppercase tracking-[.22em] text-ink/60 dark:text-stone-300">{stat.label}</p>
-                </div>
-              ))}
+            <div className="group relative h-36 overflow-hidden rounded-3xl border border-black/5 bg-white/5 shadow-lg sm:h-auto dark:border-white/10">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcgeLk96jExlHe18-Lg6mMtflrug8Y0U0ayA52Q04Z7VCmddjZoqIJOHI&s=10" alt="Elegant perfume bottle" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
             </div>
-          </div>
+            <div className="group relative h-36 overflow-hidden rounded-3xl border border-black/5 bg-white/5 shadow-lg sm:h-auto dark:border-white/10">
+              <img src="https://static.vecteezy.com/system/resources/thumbnails/071/445/958/small/three-perfume-bottles-with-flowers-on-a-table-photo.jpeg" alt="Three perfume bottles" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+            </div>
+            <div className="group relative h-36 overflow-hidden rounded-3xl border border-black/5 bg-white/5 shadow-lg sm:h-auto dark:border-white/10">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC-VhOQ4eK8TkV-dHO1rBAfY6bPpUr-H7qGQXirhxLLhoPbS5lHJg2dM3H&s=10" alt="Fragrance ingredients" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+            </div>
+            <div className="group relative h-36 overflow-hidden rounded-3xl border border-black/5 bg-white/5 shadow-lg sm:h-auto dark:border-white/10">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk8b7EN3EVH4vW-ZZLgsw9IdGmMahsubrl_on_qEDfLjGKp0SUFbRpkB6I&s=10" alt="Perfume spray" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+            </div>
+          </motion.div>
         </motion.div>
       </section>
 
@@ -369,7 +378,7 @@ export default function Home() {
 
           <div className="grid gap-4 sm:grid-cols-[1.1fr_.9fr]">
             <div className="relative overflow-hidden rounded-[2rem]">
-              <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1000&q=85" alt="Perfume ritual" className="h-[260px] w-full object-cover sm:h-[320px]" />
+              <img src="https://majesticperfume.in/cdn/shop/files/Untitled_design_12_1.png?v=1785498833&width=750" alt="Perfume ritual" className="h-[260px] w-full object-cover sm:h-[320px]" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6 text-white">
                 <p className="eyebrow text-gold/90">Private ritual</p>
@@ -404,17 +413,30 @@ export default function Home() {
           <Link href="/about" className="button-outline mt-3">Our philosophy</Link>
         </div>
         <div className="relative overflow-hidden rounded-[2rem]">
-          <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1000&q=85" alt="Perfume ritual" className="h-[320px] w-full object-cover sm:h-[430px]" />
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxl45R6hSeV3JBgy7YANbObOnPkeXnyXTcRMdQWKvxWCJ0-4YLzWTOEViX&s=10" alt="Perfume ritual" className="h-[320px] w-full object-cover sm:h-[430px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
         </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-6 pb-20">
-        <div className="luxury-panel grid gap-6 rounded-[2rem] p-8 md:grid-cols-[1.3fr_.7fr] md:items-center">
-          <div>
-            <p className="eyebrow">Private journal</p>
-            <h2 className="mt-3 font-serif text-4xl">Notes from the atelier.</h2>
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-ink/70 dark:text-white/70">Editorial stories, scent pairing ideas, and seasonal launches designed to make the project feel more premium and alive.</p>
+        <div className="luxury-panel grid gap-8 rounded-[2rem] p-8 md:grid-cols-[1.3fr_.7fr]">
+          <div className="flex flex-col justify-between h-full">
+            <div>
+              <p className="eyebrow">Private journal</p>
+              <h2 className="mt-3 font-serif text-4xl">Notes from the atelier.</h2>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-ink/70 dark:text-white/70">Editorial stories, scent pairing ideas, and seasonal launches designed to make the project feel more premium and alive.</p>
+            </div>
+            <div className="mt-8 grid grid-cols-3 gap-3 sm:gap-4 h-48 sm:h-auto sm:flex-1">
+              <div className="relative overflow-hidden rounded-2xl bg-black/5 dark:bg-white/5 shadow-md transition-transform hover:-translate-y-1">
+                <img src="https://m.media-amazon.com/images/I/61TLqwe6v6L._AC_UF894,1000_QL80_.jpg" alt="Atelier journal left" className="absolute inset-0 h-full w-full object-cover" />
+              </div>
+              <div className="relative overflow-hidden rounded-2xl bg-black/5 dark:bg-white/5 shadow-md transition-transform hover:-translate-y-1">
+                <img src="https://avatarfiles.alphacoders.com/378/thumb-350-378620.webp" alt="Atelier journal center" className="absolute inset-0 h-full w-full object-cover" />
+              </div>
+              <div className="relative overflow-hidden rounded-2xl bg-black/5 dark:bg-white/5 shadow-md transition-transform hover:-translate-y-1">
+                <img src="https://i.pinimg.com/236x/ce/39/2a/ce392a742aa034c57e2d60d2d802f152.jpg" alt="Atelier journal right" className="absolute inset-0 h-full w-full object-cover" />
+              </div>
+            </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-1">
             {journalEntries.map((entry) => (

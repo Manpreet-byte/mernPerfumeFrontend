@@ -77,6 +77,11 @@ body {
   padding-right: 2.75rem;
 }
 
+.luxury-select option {
+  background-color: var(--page-bg);
+  color: var(--page-fg);
+}
+
 .carousel-track {
   display: grid;
   grid-auto-flow: column;

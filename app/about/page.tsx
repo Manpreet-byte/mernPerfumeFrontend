@@ -35,57 +35,58 @@ const luxuryFragrances = [
 export default function AboutPage() {
 	return (
 		<div>
-			<section className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-8">
-				<div className="grid gap-12 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
+			<section className="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8">
+				<div className="grid gap-16 lg:grid-cols-[1fr_1fr] lg:items-center">
 					<div className="space-y-10">
-						<div className="max-w-2xl">
+						<div className="max-w-xl">
 							<SectionHeading
 								eyebrow="Our story"
 								title="Perfume, edited with feeling."
 								copy="Aurelia began with a simple belief: the right scent does more than smell beautiful. It has the power to bring you back to yourself."
 							/>
-							<p className="mt-6 text-base leading-8 text-ink/70 dark:text-white/70">We work closely with independent noses and small ateliers to curate a focused collection — each composition chosen for its emotional clarity and lasting character. Our team tastes collectively, shops consciously, and serves personally.</p>
-						</div>
-
-						<div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-							{principles.map((principle) => {
-								const Icon = principle.icon;
-								return (
-									<div key={principle.title} className="luxury-panel rounded-3xl p-5">
-										<span className="grid h-11 w-11 place-items-center rounded-full bg-gold/10 text-gold"><Icon size={18} /></span>
-										<h3 className="mt-4 font-serif text-2xl">{principle.title}</h3>
-										<p className="mt-3 text-sm leading-7 text-ink/70 dark:text-white/70">{principle.copy}</p>
-									</div>
-								);
-							})}
+							<p className="mt-6 text-base leading-8 text-ink dark:text-white font-medium">We work closely with independent noses and small ateliers to curate a focused collection — each composition chosen for its emotional clarity and lasting character. Our team tastes collectively, shops consciously, and serves personally.</p>
 						</div>
 
 						<div className="flex flex-col gap-4 sm:flex-row sm:items-center">
 							<Link href="/products" className="button-gold gap-2">Shop the edit <ArrowRight size={15} /></Link>
 							<Link href="/contact" className="button-outline">Speak to a concierge</Link>
 						</div>
-					</div>
 
-					<div className="relative">
-						<div className="absolute -inset-4 -z-10 rounded-[2.25rem] bg-[radial-gradient(circle_at_top,_rgba(183,147,78,.2),transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(20,18,15,.16),transparent_30%)] blur-2xl" />
-						<div className="luxury-panel overflow-hidden rounded-[2rem]">
-							<img src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1200&q=85" alt="Aurelia atelier" className="h-[320px] w-full object-cover sm:h-[420px]" />
-							<div className="grid gap-4 border-t border-ink/10 p-6 sm:grid-cols-3 dark:border-white/10">
-								<div>
-									<p className="eyebrow">Founded</p>
-									<p className="mt-2 font-serif text-2xl sm:text-3xl">2018</p>
-								</div>
-								<div>
-									<p className="eyebrow">Collections</p>
-									<p className="mt-2 font-serif text-2xl sm:text-3xl">Curated</p>
-								</div>
-								<div>
-									<p className="eyebrow">Service</p>
-									<p className="mt-2 font-serif text-2xl sm:text-3xl">Concierge</p>
-								</div>
+						<div className="pt-8 border-t border-black/10 dark:border-white/10 grid grid-cols-3 gap-4">
+							<div>
+								<p className="eyebrow">Founded</p>
+								<p className="mt-2 font-serif text-2xl sm:text-3xl text-ink dark:text-white">2018</p>
+							</div>
+							<div>
+								<p className="eyebrow">Collections</p>
+								<p className="mt-2 font-serif text-2xl sm:text-3xl text-ink dark:text-white">Curated</p>
+							</div>
+							<div>
+								<p className="eyebrow">Service</p>
+								<p className="mt-2 font-serif text-2xl sm:text-3xl text-ink dark:text-white">Concierge</p>
 							</div>
 						</div>
 					</div>
+
+					<div className="relative w-full h-[500px] lg:h-[720px]">
+						<div className="absolute -inset-4 -z-10 rounded-[3rem] bg-[radial-gradient(circle_at_top,_rgba(183,147,78,.2),transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(20,18,15,.16),transparent_30%)] blur-2xl dark:bg-[radial-gradient(circle_at_top,_rgba(183,147,78,.15),transparent_40%),radial-gradient(circle_at_bottom_right,_rgba(255,255,255,.05),transparent_40%)]" />
+						<img src="https://images.pexels.com/photos/15007560/pexels-photo-15007560/free-photo-of-close-up-of-a-perfume-in-a-bottle.jpeg" alt="Aurelia atelier" className="h-full w-full rounded-[2.5rem] object-cover shadow-2xl" />
+					</div>
+				</div>
+			</section>
+
+			<section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8">
+				<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+					{principles.map((principle) => {
+						const Icon = principle.icon;
+						return (
+							<div key={principle.title} className="luxury-panel rounded-[2rem] p-8">
+								<span className="grid h-14 w-14 place-items-center rounded-full bg-gold/10 text-gold"><Icon size={24} /></span>
+								<h3 className="mt-6 font-serif text-2xl text-ink dark:text-white">{principle.title}</h3>
+								<p className="mt-3 text-sm leading-7 text-ink/70 dark:text-white/70">{principle.copy}</p>
+							</div>
+						);
+					})}
 				</div>
 			</section>
 
@@ -146,13 +147,13 @@ export default function AboutPage() {
 			</div>
 		</section>
 
-		<section className="bg-ink px-6 py-16 text-black dark:text-white">
+		<section className="bg-ink px-6 py-16 text-white">
 			<div className="mx-auto max-w-7xl">
 				<div className="grid gap-8 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
 					<div>
 						<p className="eyebrow">Timeline</p>
 						<h3 className="mt-4 font-serif text-4xl">The house has grown deliberately.</h3>
-						<p className="mt-4 max-w-lg text-sm leading-7 text-stone-600 dark:text-stone-300">Each milestone marked a refinement in how we curate, present, and support the collection.</p>
+						<p className="mt-4 max-w-lg text-sm leading-7 text-stone-300">Each milestone marked a refinement in how we curate, present, and support the collection.</p>
 					</div>
 					<div className="space-y-4">
 						{timeline.map((item) => (
@@ -161,8 +162,8 @@ export default function AboutPage() {
 									<div className="grid h-12 w-12 place-items-center rounded-full bg-gold/15 text-gold"><Clock3 size={18} /></div>
 									<div className="min-w-0 flex-1">
 										<p className="text-xs font-bold uppercase tracking-[.22em] text-gold">{item.year}</p>
-										<h4 className="mt-2 font-serif text-2xl text-black dark:text-white">{item.title}</h4>
-										<p className="mt-2 text-sm leading-7 text-stone-600 dark:text-stone-300">{item.copy}</p>
+										<h4 className="mt-2 font-serif text-2xl text-white">{item.title}</h4>
+										<p className="mt-2 text-sm leading-7 text-stone-300">{item.copy}</p>
 									</div>
 								</div>
 							</div>
