@@ -44,7 +44,11 @@ export default function ProductsPage() {
             : [];
 
         setProducts(nextProducts);
-        setPagination(data.pagination ?? DEFAULT_PAGINATION);
+        setPagination({
+          page: data.currentPage ?? 1,
+          pages: data.totalPages ?? 1,
+          total: data.totalProducts ?? 0,
+        });
       } catch {
         setProducts([]);
         setPagination(DEFAULT_PAGINATION);
