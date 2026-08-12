@@ -25,7 +25,12 @@ export function Header() {
 
         <div className="hidden items-center gap-8 md:flex">
           <Link href="/" className="font-serif text-2xl tracking-[.25em] text-ink dark:text-white">AURELIA</Link>
-          <nav className="flex items-center gap-8">{links.map(([label, href]) => <Link key={label} href={href} className="text-xs font-bold uppercase tracking-[.14em] transition hover:text-gold">{label}</Link>)}</nav>
+          <nav className="flex items-center gap-8">
+            {links.map(([label, href]) => <Link key={label} href={href} className="text-xs font-bold uppercase tracking-[.14em] transition hover:text-gold">{label}</Link>)}
+            {user?.role === 'admin' && (
+              <Link href="/admin" className="text-xs font-bold uppercase tracking-[.14em] text-gold transition hover:text-ink dark:hover:text-white">Admin</Link>
+            )}
+          </nav>
         </div>
 
         <div className="flex items-center gap-4">
@@ -58,6 +63,11 @@ export function Header() {
               {label}
             </Link>
           ))}
+          {user?.role === 'admin' && (
+            <Link onClick={() => setOpen(false)} href="/admin" className="text-sm font-semibold uppercase tracking-widest text-gold">
+              Admin Dashboard
+            </Link>
+          )}
           <div className="mt-2 border-t border-ink/10 pt-5 dark:border-white/10">
             {user ? (
               <>
