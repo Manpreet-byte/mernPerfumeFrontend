@@ -107,24 +107,10 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.95 }} 
             animate={{ opacity: 1, scale: 1 }} 
             transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:grid-rows-2 sm:h-[500px]"
+            className="group relative h-[400px] w-full overflow-hidden rounded-[2rem] border border-black/5 bg-white/5 shadow-2xl sm:h-[500px] sm:rounded-[2.5rem] dark:border-white/10"
           >
-            <div className="group relative col-span-2 row-span-2 overflow-hidden rounded-[2rem] border border-black/5 bg-white/5 shadow-2xl sm:col-span-1 sm:rounded-[2.5rem] dark:border-white/10">
-              <img src="https://beboldperfumes.com/cdn/shop/articles/khadlaj_perfumes.png?v=1745924262" alt="Premium luxury fragrance collection" className="h-64 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 sm:h-full" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60" />
-            </div>
-            <div className="group relative h-36 overflow-hidden rounded-3xl border border-black/5 bg-white/5 shadow-lg sm:h-auto dark:border-white/10">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcgeLk96jExlHe18-Lg6mMtflrug8Y0U0ayA52Q04Z7VCmddjZoqIJOHI&s=10" alt="Elegant perfume bottle" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-            </div>
-            <div className="group relative h-36 overflow-hidden rounded-3xl border border-black/5 bg-white/5 shadow-lg sm:h-auto dark:border-white/10">
-              <img src="https://static.vecteezy.com/system/resources/thumbnails/071/445/958/small/three-perfume-bottles-with-flowers-on-a-table-photo.jpeg" alt="Three perfume bottles" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-            </div>
-            <div className="group relative h-36 overflow-hidden rounded-3xl border border-black/5 bg-white/5 shadow-lg sm:h-auto dark:border-white/10">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC-VhOQ4eK8TkV-dHO1rBAfY6bPpUr-H7qGQXirhxLLhoPbS5lHJg2dM3H&s=10" alt="Fragrance ingredients" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-            </div>
-            <div className="group relative h-36 overflow-hidden rounded-3xl border border-black/5 bg-white/5 shadow-lg sm:h-auto dark:border-white/10">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRk8b7EN3EVH4vW-ZZLgsw9IdGmMahsubrl_on_qEDfLjGKp0SUFbRpkB6I&s=10" alt="Perfume spray" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-            </div>
+            <img src="https://i.ytimg.com/vi/KLN3_iu4G5Y/maxresdefault.jpg" alt="Aurelia hero fragrance" className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent opacity-60" />
           </motion.div>
         </motion.div>
       </section>

@@ -1,3 +1,28 @@
-import type { Metadata } from 'next'; import './globals.css'; import { Providers } from '@/components/providers'; import { SiteChrome } from '@/components/site-chrome';
-export const metadata: Metadata = { title: 'AURELIA | Fine Fragrance', description: 'A curated world of exceptional perfume.', icons: { icon: 'https://thumbs.dreamstime.com/z/golden-perfume-bottle-logo-letter-aurelia-text-elegant-golden-logo-featuring-stylized-perfume-bottle-sleek-412433421.jpg' } };
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="en" suppressHydrationWarning><body suppressHydrationWarning><Providers><SiteChrome>{children}</SiteChrome></Providers></body></html>; }
+import type { Metadata } from 'next';
+import './globals.css';
+import { Providers } from '@/components/providers';
+import { SiteChrome } from '@/components/site-chrome';
+import { FloatingAssistant } from '@/components/floating-assistant';
+
+export const metadata: Metadata = {
+  title: 'AURELIA | Fine Fragrance',
+  description: 'A curated world of exceptional perfume.',
+  icons: {
+    icon: 'https://thumbs.dreamstime.com/z/golden-perfume-bottle-logo-letter-aurelia-text-elegant-golden-logo-featuring-stylized-perfume-bottle-sleek-412433421.jpg'
+  }
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <Providers>
+          <SiteChrome>
+            {children}
+            <FloatingAssistant />
+          </SiteChrome>
+        </Providers>
+      </body>
+    </html>
+  );
+}
